@@ -11,7 +11,22 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <div id="container">
+          <div id="main">
+          {children}
+          </div>
+        </div>
+      {/* Company Contact Info Section */}
+      <footer className="bg-cyan-400">
+            <h2>Contact Information</h2>
+            <p>Company Name: Your Company Name</p>
+            <p>CVR: 12345678</p>
+            <p>Address: 1234 Business St., City, Country</p>
+            <p>Email: info@yourcompany.com</p>
+            <p>Phone: +1 234 567 8900</p>
+          </footer>
+        </body>
     </html>
   )
 }

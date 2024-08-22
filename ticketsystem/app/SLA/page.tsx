@@ -41,16 +41,6 @@ const SLAForm: React.FC = () => {
           uptime, the company will provide service credits as compensation.
         </p>
       </section>
-
-      {/* Company Contact Info Section */}
-      <section id="contact-info">
-        <h2>Contact Information</h2>
-        <p>Company Name: Your Company Name</p>
-        <p>CVR: 12345678</p>
-        <p>Address: 1234 Business St., City, Country</p>
-        <p>Email: info@yourcompany.com</p>
-        <p>Phone: +1 234 567 8900</p>
-      </section>
     </div>
   );
 };
