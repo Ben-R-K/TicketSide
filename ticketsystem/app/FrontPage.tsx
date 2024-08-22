@@ -1,14 +1,9 @@
 "use client"
-
+import MenueBar from "./MenueBar";
 export default function FrontPage(){
     return(
         <div className="grid">
-            <div className="flex justify-around mt-2 font-bold">
-                <a className="hover:bg-blue-500 rounded p-2 " href="">OpenTickets</a>
-                <a className="hover:bg-blue-500 rounded p-2" href="">ClosedTickets</a>
-                <a className="hover:bg-blue-500 rounded p-2" href="">CreateTicket</a>
-                <a className="hover:bg-blue-500 rounded p-2" href="">SLA</a> 
-            </div>
+            <MenueBar/>
             <div className="flex">
                 <ul className="mt-2">
                
