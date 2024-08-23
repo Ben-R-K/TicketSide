@@ -1,25 +1,37 @@
 "use client";
-
 import React, { useState } from "react";
 import MenueBar from "../MenueBar";
+import { useTickets } from "../TicketContext";
+import { useRouter } from "next/navigation"; // Import useRouter from next/navigation
 
 const CreateTicketPage: React.FC = () => {
   const [headline, setHeadline] = useState("");
   const [description, setDescription] = useState("");
-  const [priority, setPriority] = useState("Low");
+  const [priority, setPriority] = useState<"Low" | "Medium" | "High">("Low");
   const [department, setDepartment] = useState("IT");
+  const { addTicket } = useTickets();
+  const router = useRouter(); // Initialize useRouter
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log({ headline, description, priority, department });
+    const newTicket = {
+      headline,
+      description,
+      priority,
+      department,
+      createdAt: new Date(),
+    };
+    addTicket(newTicket);
+    setHeadline("");
+    setDescription("");
+    setPriority("Low");
+    setDepartment("IT");
+    router.push("/"); // Navigate back to the FrontPage
   };
 
   return (
     <div>
-      {/* Top Navigation Bar */}
       <MenueBar />
-
-      {/* Create Ticket Form */}
       <div>
         <h1 className="flex justify-center text-xl font-bold mt-5">
           Create a New Ticket
@@ -42,7 +54,8 @@ const CreateTicketPage: React.FC = () => {
 
           <label htmlFor="department">Select the Department:</label>
           <div>
-            <select className="bg-cyan-300 rounded"
+            <select
+              className="bg-cyan-300 rounded"
               id="department"
               value={department}
               onChange={(e) => setDepartment(e.target.value)}
@@ -64,7 +77,7 @@ const CreateTicketPage: React.FC = () => {
                     name="priority"
                     value={level}
                     checked={priority === level}
-                    onChange={(e) => setPriority(e.target.value)}
+                    onChange={(e) => setPriority(e.target.value as "Low" | "Medium" | "High")}
                   />
                   <span>{level}</span>
                 </label>
@@ -84,8 +97,12 @@ const CreateTicketPage: React.FC = () => {
           </div>
 
           <div>
-            <button className="m-3 hover:bg-cyan-500 rounded" type="button">Cancel</button>
-            <button className="m-3 hover:bg-cyan-500 rounded" type="submit">Submit Ticket</button>
+            <button className="m-3 hover:bg-cyan-500 rounded" type="button">
+              Cancel
+            </button>
+            <button className="m-3 hover:bg-cyan-500 rounded" type="submit">
+              Submit Ticket
+            </button>
           </div>
         </form>
       </div>
