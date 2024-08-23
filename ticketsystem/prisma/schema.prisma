@@ -1,0 +1,36 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Ticket {
+  id       Int    @id @default(autoincrement())
+  headline String
+  deparment department @relation(fields: [deparmentid], references: [deparmentid])
+  deparmentid Int
+  prioritylevel prioritylevel @relation(fields: [prioritylevelid], references: [priorityid])
+  prioritylevelid Int
+  description String @db.VarChar(500)
+}
+
+model department {
+  deparmentid Int @id @default(autoincrement())
+  deparment String
+  Tickets Ticket[]
+}
+
+model prioritylevel {
+  priorityid Int @id @default(autoincrement())
+  prioritysymbol String
+  Tickets Ticket[]
+}

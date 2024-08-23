@@ -11,14 +11,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        <div id="container">
-          <div id="main">
+      <body className="h-screen">
+        <div id="container" className="min-h-screen">
+          <div id="main" className="overflow-auto">
           {children}
           </div>
         </div>
       {/* Company Contact Info Section */}
-      <footer className="bg-cyan-400">
+      <footer className="bg-cyan-400 relative clear-both">
             <h2>Contact Information</h2>
             <p>Company Name: Your Company Name</p>
             <p>CVR: 12345678</p>
