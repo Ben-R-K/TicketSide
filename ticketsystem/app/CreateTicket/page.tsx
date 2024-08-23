@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import MenueBar from "../MenueBar";
 import { useTickets } from "../TicketContext";
-import { useRouter } from "next/navigation"; // Import useRouter from next/navigation
+import { useRouter } from "next/navigation";
 
 const CreateTicketPage: React.FC = () => {
   const [headline, setHeadline] = useState("");
@@ -10,9 +10,9 @@ const CreateTicketPage: React.FC = () => {
   const [priority, setPriority] = useState<"Low" | "Medium" | "High">("Low");
   const [department, setDepartment] = useState("IT");
   const { addTicket } = useTickets();
-  const router = useRouter(); // Initialize useRouter
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const newTicket = {
       headline,
@@ -20,12 +20,10 @@ const CreateTicketPage: React.FC = () => {
       priority,
       department,
       createdAt: new Date(),
+      status: "Open",
     };
-    addTicket(newTicket);
-    setHeadline("");
-    setDescription("");
-    setPriority("Low");
-    setDepartment("IT");
+
+    await addTicket(newTicket);
     router.push("/"); // Navigate back to the FrontPage
   };
 
