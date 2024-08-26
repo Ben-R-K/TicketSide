@@ -4,8 +4,8 @@ const fs = require('fs');
 const path = require('path');
 const app = express();
 
-app.use(cors()); // Enable CORS for all requests
-app.use(express.json()); // To parse JSON bodies
+app.use(cors()); 
+app.use(express.json()); 
 
 const filePath = path.join(__dirname, 'tickets.json');
 
@@ -33,7 +33,7 @@ app.get('/api/tickets', (req, res) => {
 // API endpoint to add a new ticket
 app.post('/api/tickets', (req, res) => {
   const tickets = loadTickets();
-  const newTicket = { ...req.body, id: Date.now().toString() }; // Simple ID
+  const newTicket = { ...req.body, id: Date.now().toString() }; // ID
   tickets.push(newTicket);
   saveTickets(tickets);
   res.status(201).json(newTicket);
@@ -41,7 +41,7 @@ app.post('/api/tickets', (req, res) => {
 
 // API endpoint to delete a ticket by ID
 app.delete('/api/tickets/:id', (req, res) => {
-  const tickets = loadTickets();
+  const tickets = loadTickets();         
   const filteredTickets = tickets.filter(ticket => ticket.id !== req.params.id);
   saveTickets(filteredTickets);
   res.status(204).end();
