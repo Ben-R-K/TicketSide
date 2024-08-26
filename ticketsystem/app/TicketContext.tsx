@@ -1,5 +1,6 @@
 "use client";
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { v4 as uuidv4 } from "uuid"; 
 
 interface Ticket {
   id: string;
@@ -13,7 +14,7 @@ interface Ticket {
 
 interface TicketContextType {
   tickets: Ticket[];
-  addTicket: (ticket: Ticket) => Promise<void>;
+  addTicket: (ticket: Omit<Ticket, 'id'>) => Promise<void>; // We exclude 'id' here
   removeTicket: (id: string) => Promise<void>;
   loadTickets: () => Promise<void>;
 }
@@ -29,25 +30,22 @@ export const TicketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     setTickets(
       data.map((ticket: Ticket) => ({
         ...ticket,
-        createdAt: new Date(ticket.createdAt), // Convert createdAt to Date object
+        createdAt: new Date(ticket.createdAt), // Ensure createdAt is a Date object
       }))
     );
   };
 
-  const addTicket = async (ticket: Ticket) => {
+  const addTicket = async (ticket: Omit<Ticket, 'id'>) => {
+    const newTicket: Ticket = { ...ticket, id: uuidv4() }; // Generate 'id' here
     const response = await fetch('http://localhost:3001/api/tickets', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(ticket),
+      body: JSON.stringify(newTicket),
     });
     if (response.ok) {
-      const newTicket = await response.json();
-      setTickets((prevTickets) => [
-        ...prevTickets,
-        { ...newTicket, createdAt: new Date(newTicket.createdAt) }, // Ensure createdAt is a Date object
-      ]);
+      setTickets((prevTickets) => [...prevTickets, newTicket]);
     }
   };
 
