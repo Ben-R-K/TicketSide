@@ -1,6 +1,5 @@
 "use client";
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
-import { v4 as uuidv4 } from "uuid"; // Import uuid for generating unique IDs
 
 interface Ticket {
   id: string;
@@ -25,30 +24,42 @@ export const TicketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [tickets, setTickets] = useState<Ticket[]>([]);
 
   const loadTickets = async () => {
-    const storedTickets = localStorage.getItem("tickets");
-    if (storedTickets) {
-      setTickets(JSON.parse(storedTickets).map((ticket: Ticket) => ({
+    const response = await fetch('http://localhost:3001/api/tickets');
+    const data: Ticket[] = await response.json();
+    setTickets(
+      data.map((ticket: Ticket) => ({
         ...ticket,
-        createdAt: new Date(ticket.createdAt),
-      })));
-    }
+        createdAt: new Date(ticket.createdAt), // Convert createdAt to Date object
+      }))
+    );
   };
 
   const addTicket = async (ticket: Ticket) => {
-    const newTicket = { ...ticket, id: uuidv4() }; // Assign a unique ID to each ticket
-    const newTickets = [...tickets, newTicket];
-    setTickets(newTickets);
-    localStorage.setItem("tickets", JSON.stringify(newTickets));
+    const response = await fetch('http://localhost:3001/api/tickets', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(ticket),
+    });
+    if (response.ok) {
+      const newTicket = await response.json();
+      setTickets((prevTickets) => [
+        ...prevTickets,
+        { ...newTicket, createdAt: new Date(newTicket.createdAt) }, // Ensure createdAt is a Date object
+      ]);
+    }
   };
 
   const removeTicket = async (id: string) => {
-    const newTickets = tickets.filter(ticket => ticket.id !== id);
-    setTickets(newTickets);
-    localStorage.setItem("tickets", JSON.stringify(newTickets));
+    const response = await fetch(`http://localhost:3001/api/tickets/${id}`, { method: 'DELETE' });
+    if (response.ok) {
+      setTickets((prevTickets) => prevTickets.filter(ticket => ticket.id !== id));
+    }
   };
 
   useEffect(() => {
-    loadTickets(); // Load tickets when the context provider mounts
+    loadTickets();
   }, []);
 
   return (
