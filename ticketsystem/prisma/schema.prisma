@@ -21,6 +21,7 @@ model Ticket {
   prioritylevel prioritylevel @relation(fields: [prioritylevelid], references: [priorityid])
   prioritylevelid Int
   description String @db.VarChar(500)
+  open Boolean
 }
 
 model department {

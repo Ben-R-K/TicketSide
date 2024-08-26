@@ -1,9 +1,7 @@
 "use client"
-import MenueBar from "./MenueBar";
 export default function FrontPage(){
     return(
         <div className="grid">
-            <MenueBar/>
             <div className="flex">
                 <ul className="mt-2">
                
