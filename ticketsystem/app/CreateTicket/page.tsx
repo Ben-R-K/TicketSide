@@ -29,13 +29,15 @@ const CreateTicketPage: React.FC = () => {
 
   return (
     <div>
-      <MenueBar />
-      <div>
+      {/* Top Navigation Bar */}
+
+      {/* Create Ticket Form */}
+      <div className="grid">
         <h1 className="flex justify-center text-xl font-bold mt-5">
           Create a New Ticket
         </h1>
         <form
-          className="bg-cyan-400 grid justify-items-center"
+          className="bg-cyan-400 grid justify-items-center justify-self-center py-2 px-12 rounded-md"
           onSubmit={handleSubmit}
         >
           <label htmlFor="headline">Ticket Headline:</label>
@@ -65,8 +67,8 @@ const CreateTicketPage: React.FC = () => {
             </select>
           </div>
 
-          <div>
-            <label>Priority Level</label>
+          <div className="grid">
+            <label className="justify-self-center">Priority Level:</label>
             <div>
               {["Low", "Medium", "High"].map((level) => (
                 <label key={level}>

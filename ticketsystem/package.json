@@ -9,9 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "react": "^18",
     "cors": "^2.8.5",
     "next": "14.2.5",
-    "react": "^18",
+    "@prisma/client": "^5.18.0",
     "react-dom": "^18"
   },
   "devDependencies": {
@@ -21,6 +22,7 @@
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
     "postcss": "^8",
+    "prisma": "^5.18.0",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   },
@@ -28,5 +30,8 @@
   "main": "index.js",
   "keywords": [],
   "author": "",
-  "license": "ISC"
-}
+  "license": "ISC",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.5"
+  }
+

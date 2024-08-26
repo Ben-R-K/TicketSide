@@ -1,14 +1,11 @@
 "use client";
- import MenueBar from "../MenueBar";
 import React from "react";
 
 const SLAForm: React.FC = () => {
   return (
     <div>
-      {/* Top Navigation Bar */}
-      <MenueBar/>
-
       {/* Top Section with Full-Width Image and Company Info */}
+      <div className="bg-cyan-400">
       <header>
         <img src="https://via.placeholder.com/1920x400" alt="Company Banner" id="banner-image" />
         <div id="banner-text">
@@ -41,6 +38,7 @@ const SLAForm: React.FC = () => {
           uptime, the company will provide service credits as compensation.
         </p>
       </section>
+      </div>
     </div>
   );
 };
