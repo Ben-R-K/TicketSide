@@ -30,7 +30,7 @@ export const TicketProvider: React.FC<{ children: ReactNode }> = ({ children }) 
     setTickets(
       data.map((ticket: Ticket) => ({
         ...ticket,
-        createdAt: new Date(ticket.createdAt), // Ensure createdAt is a Date object
+        createdAt: new Date(ticket.createdAt), 
       }))
     );
   };
