@@ -1,9 +1,11 @@
 "use client";
+import MenueBar from "../MenueBar";
 import React from "react";
 
 const SLAForm: React.FC = () => {
   return (
     <div>
+      <MenueBar/>
       {/* Top Section with Full-Width Image and Company Info */}
       <div className="bg-cyan-400">
       <header>

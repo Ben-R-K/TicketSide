@@ -28,10 +28,18 @@ model department {
   deparmentid Int @id @default(autoincrement())
   deparment String
   Tickets Ticket[]
+  Acounts Acount[]
 }
 
 model prioritylevel {
   priorityid Int @id @default(autoincrement())
   prioritysymbol String
   Tickets Ticket[]
+}
+
+model Acount {
+  acountid Int  @id @default(autoincrement())
+  name String
+  department department @relation(fields: [depatmentid], references: [deparmentid])
+  depatmentid Int
 }

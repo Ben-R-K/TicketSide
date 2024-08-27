@@ -2,8 +2,9 @@
 export default function(){
     return(
         <div className="grid">
-            <div className="justify-self-center mb-2">
-                <h1 className="font-bold text-6xl">Our History</h1>
+            <div className="grid mb-2">
+            <a className="overflow-auto absolute" href="/FAQ">return</a>
+                <h1 className="font-bold text-6xl justify-self-center">Our History</h1>
             </div>
             <div className="text-xl mx-60">
                 <p>

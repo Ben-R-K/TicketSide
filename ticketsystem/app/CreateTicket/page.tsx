@@ -1,5 +1,6 @@
 "use client";
 
+import MenueBar from "../MenueBar";
 import React, { useState } from "react";
 
 const CreateTicketPage: React.FC = () => {
@@ -15,6 +16,7 @@ const CreateTicketPage: React.FC = () => {
 
   return (
     <div>
+      <MenueBar/>
       {/* Create Ticket Form */}
       <div className="grid">
         <h1 className="flex justify-center text-xl font-bold mt-5">
