@@ -16,8 +16,8 @@ datasource db {
 model Ticket {
   id       Int    @id @default(autoincrement())
   headline String
-  deparment department @relation(fields: [deparmentid], references: [deparmentid])
-  deparmentid Int
+  department department @relation(fields: [departmentid], references: [departmentid])
+  departmentid Int
   prioritylevel prioritylevel @relation(fields: [prioritylevelid], references: [priorityid])
   prioritylevelid Int
   description String @db.VarChar(500)
@@ -25,8 +25,8 @@ model Ticket {
 }
 
 model department {
-  deparmentid Int @id @default(autoincrement())
-  deparment String
+  departmentid Int @id @default(autoincrement())
+  department String
   Tickets Ticket[]
   Acounts Acount[]
 }
@@ -40,6 +40,6 @@ model prioritylevel {
 model Acount {
   acountid Int  @id @default(autoincrement())
   name String
-  department department @relation(fields: [depatmentid], references: [deparmentid])
+  department department @relation(fields: [depatmentid], references: [departmentid])
   depatmentid Int
 }

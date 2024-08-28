@@ -1,5 +1,6 @@
 "use client";
 
+import { InsertTicket } from "../pages/api/DataBaseConnection";
 import MenueBar from "../MenueBar";
 import React, { useState } from "react";
 
@@ -11,6 +12,8 @@ const CreateTicketPage: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    InsertTicket({headline, description, priority, department});
     console.log({ headline, description, priority, department });
   };
 
