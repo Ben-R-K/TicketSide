@@ -1,4 +1,5 @@
 "use client"
+import { GetTickets } from "./pages/api/DataBaseConnection";
 export default function TicketPage(){
     return(
         <div className="grid">
