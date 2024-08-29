@@ -41,7 +41,7 @@ export default function TicketPage() {
               <li key={ticket.id} className="mb-2 p-2 border rounded bg-white shadow">
                 <h3 className="font-bold">{ticket.headline}</h3>
                 <p>Priority: {ticket.priority}</p>
-                <p>Department: {ticket.department}</p>
+                <p>Department: {ticket.department.department}</p>
                 <p className="text-sm text-green-600 font-semibold">Status: {ticket.open ? "Open" : "Closed"}</p>
                 <p className="text-xs text-gray-500">Created at: {new Date(ticket.createdAt).toLocaleString()}</p>
                 <button

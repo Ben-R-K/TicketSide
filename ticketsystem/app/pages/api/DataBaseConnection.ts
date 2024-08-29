@@ -1,11 +1,30 @@
 "use server";
 import prisma from "../../lib/prisma"; // Adjust the import path based on your project structure
 
+export interface Department {
+  departmentId: number;
+  department: string;
+}
+
+export interface Ticket {
+  id: number;
+  headline: string;
+  description: string;
+  priority: string;
+  department: Department;
+  open: boolean;
+  createdAt: Date;
+}
+
+export interface ErrorResponse {
+  error: string;
+}
+
 
 export async function GetAcounts() {
 
       const acounts = await prisma.acount.findMany({
-        select: { id: true,
+        select: { acountid: true,
                 acount_name: true,
                 department: true}
       });
@@ -27,7 +46,7 @@ export async function GetTickets() {
   }
 }
 
-export async function InsertTicket({ headline, description, priority, department }: Ticket) {
+export async function InsertTicket({ headline, description, priority, department }: Omit<Ticket, 'id' | 'open' | 'createdAt'>) {
   try {
     if (!headline || !department || !priority || !description) {
       return { error: "All fields need to be filled" };
@@ -51,6 +70,19 @@ export async function InsertTicket({ headline, description, priority, department
   }
 }
 
+export async function CloseTicket(ticketId: number) {
+  try {
+    const closedTicket = await prisma.ticket.update({
+      where: { id: ticketId },
+      data: { open: false },
+    });
+
+    return closedTicket;
+  } catch (error) {
+    return { error: "Error closing ticket" };
+  }
+}
+
 async function GetForeignKeys(department: string, priority: string) {
   try {
     const departmentRecord = await prisma.department.findFirst({
@@ -67,7 +99,11 @@ async function GetForeignKeys(department: string, priority: string) {
       throw new Error("Invalid department or priority");
     }
 
-    return [departmentRecord.departmentid, priorityRecord.priorityid];
+    // Access the specific properties from the objects returned by Prisma
+    const depId = departmentRecord.departmentid;
+    const prioId = priorityRecord.priorityid;
+
+    return [depId, prioId];
   } catch (error) {
     throw new Error("Error fetching department or priority");
   }

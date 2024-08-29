@@ -7,23 +7,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Ticket {
-  id       Int    @id @default(autoincrement())
-  headline String
-  department department @relation(fields: [departmentid], references: [departmentid])
-  departmentid Int
-  prioritylevel prioritylevel @relation(fields: [prioritylevelid], references: [priorityid])
-  prioritylevelid Int
-  description String @db.VarChar(500)
-  open Boolean
-  createdAt DateTime @default(now())
-}
- 
 model department {
   departmentid Int      @id @default(autoincrement())
   department   String
-  ticket       ticket[]
   acount       acount[]
+  ticket       ticket[]
 }
 
 model prioritylevel {
@@ -33,10 +21,11 @@ model prioritylevel {
 }
 
 model acount {
-  id        Int    @id @default(autoincrement())
-  acount_name String
+  acountid    Int        @id @default(autoincrement())
+  acount_name        String
   departmentid Int
-  department department @relation(fields: [departmentid], references: [departmentid], map: "acount_departmentid_fkey")
+  department  department @relation(fields: [departmentid], references: [departmentid], map: "Acount_depatmentid_fkey")
+
 }
 
 model ticket {
@@ -46,6 +35,7 @@ model ticket {
   prioritylevelid Int
   description     String        @db.VarChar(500)
   open            Boolean
+  createdAt       DateTime      @default(now())
   department      department    @relation(fields: [departmentid], references: [departmentid], map: "Ticket_departmentid_fkey")
   prioritylevel   prioritylevel @relation(fields: [prioritylevelid], references: [priorityid], map: "Ticket_prioritylevelid_fkey")
 
