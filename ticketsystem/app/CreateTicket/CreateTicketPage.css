@@ -1,0 +1,252 @@
+/* Page Background */
+.page-background {
+    background-color: #e0f7fa; /* Light blue background for the page */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column; /* Align content vertically */
+    align-items: center;
+    justify-content: flex-start; /* Start at the top to fit the menu bar */
+    padding-top: 20px; /* Space above the content */
+  }
+  
+  /* Ticket Form Container */
+  .create-ticket-container {
+    margin: 20px auto;
+    padding: 30px;
+    width: 100%;
+    max-width: 700px;
+    background-color: #c1f8ff; /* Light blue for the container */
+    border-radius: 15px;
+    box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Header */
+  .create-ticket-header {
+    font-size: 28px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #1e90ff;
+  }
+  
+  /* Form */
+  .create-ticket-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Dropdown Label */
+  .dropdown-label {
+    font-weight: bold;
+    color: #1e90ff;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  
+  /* Form Control */
+  .form-control {
+    position: relative;
+    margin: 20px 0 40px;
+    width: 100%;
+    max-width: 500px;
+  }
+  
+  /* Input Fields */
+  .form-control input {
+    background-color: transparent;
+    border: 0;
+    border-bottom: 2px #1E90FF solid;
+    display: block;
+    width: 100%;
+    padding: 15px 0;
+    font-size: 18px;
+    color: #000000;
+  }
+  
+  .form-control input:focus,
+  .form-control input:valid {
+    outline: 0;
+    border-bottom-color: lightblue;
+  }
+  
+  .form-control label {
+    position: absolute;
+    top: 15px;
+    left: 0;
+    pointer-events: none;
+  }
+  
+  .form-control label span {
+    display: inline-block;
+    font-size: 18px;
+    min-width: 5px;
+    color: #1E90FF;
+    transition: 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+  
+  .form-control input:focus + label span,
+  .form-control input:valid + label span {
+    color: lightblue;
+    transform: translateY(-30px);
+  }
+  
+  /* Description Input */
+  .coolinput {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 20px;
+    position: relative;
+  }
+  
+  .coolinput label.text {
+    font-size: 0.75rem;
+    color: #1E90FF;
+    font-weight: 700;
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    padding: 0 3px;
+    background: #b0e0e6; /* Match the form background */
+    width: fit-content;
+  }
+  
+  .coolinput textarea.input {
+    padding: 15px 10px;
+    font-size: 1rem;
+    border: 2px #1E90FF solid;
+    border-radius: 5px;
+    background: #f0f0f0;
+    resize: vertical;
+    min-height: 150px;
+  }
+  
+  .coolinput textarea.input:focus {
+    outline: none;
+  }
+  
+  /* Dropdown Styles */
+  .priority-dropdown-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 20px;
+  }
+  
+  .dropdown {
+    display: none;
+  }
+  
+  .dropdown + label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 15px;
+    background-color: #1E90FF;
+    color: white;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .dropdown + label:hover {
+    background-color: #1c86ee;
+  }
+  
+  .dropdown + label .icon {
+    font-size: 16px;
+    transform: rotate(0deg);
+    transition: transform 0.3s ease;
+  }
+  
+  .dropdown:checked + label .icon {
+    transform: rotate(180deg);
+  }
+  
+  .section-dropdown {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+  }
+  
+  .dropdown:checked ~ .section-dropdown {
+    display: block;
+  }
+  
+  .section-dropdown a {
+    display: block;
+    padding: 10px 15px;
+    color: #1E90FF;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .section-dropdown a:hover {
+    background-color: #1E90FF;
+    color: white;
+  }
+  
+  /* Submit and Cancel Buttons */
+  .submit-cancel-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+  }
+  
+  .submit-button,
+  .cancel-button {
+    position: relative;
+    display: inline-block;
+    margin: 15px;
+    padding: 15px 30px;
+    text-align: center;
+    font-size: 18px;
+    letter-spacing: 1px;
+    text-decoration: none;
+    background: transparent;
+    cursor: pointer;
+    transition: ease-out 0.5s;
+    border: 2px solid;
+    border-radius: 10px;
+    box-shadow: inset 0 0 0 0;
+  }
+  
+  .submit-button {
+    color: #1E90FF;
+    border-color: #1E90FF;
+    box-shadow: inset 0 0 0 0 #1E90FF;
+  }
+  
+  .submit-button:hover {
+    color: white;
+    box-shadow: inset 0 -100px 0 0 #1E90FF;
+  }
+  
+  .submit-button:active {
+    transform: scale(0.9);
+  }
+  
+  .cancel-button {
+    color: #DC143C;
+    border-color: #DC143C;
+    box-shadow: inset 0 0 0 0 #DC143C;
+  }
+  
+  .cancel-button:hover {
+    color: white;
+    box-shadow: inset 0 -100px 0 0 #DC143C;
+  }
+  
+  .cancel-button:active {
+    transform: scale(0.9);
+  }
+  

@@ -7,6 +7,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Ticket {
+  id       Int    @id @default(autoincrement())
+  headline String
+  department department @relation(fields: [departmentid], references: [departmentid])
+  departmentid Int
+  prioritylevel prioritylevel @relation(fields: [prioritylevelid], references: [priorityid])
+  prioritylevelid Int
+  description String @db.VarChar(500)
+  open Boolean
+  createdAt DateTime @default(now())
+}
+ 
 model department {
   departmentid Int      @id @default(autoincrement())
   department   String
