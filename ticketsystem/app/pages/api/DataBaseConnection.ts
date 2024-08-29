@@ -1,5 +1,6 @@
 "use server";
-import prisma from '../../lib/prisma';
+import fs from 'fs';
+import path from 'path';
 
 export interface Ticket {
   id: number;
@@ -8,19 +9,9 @@ export interface Ticket {
   prioritylevelid: number;
   description: string;
   open: boolean;
-  createdAt: Date; 
-  department: {
-    departmentid: number;
-    department: string;
-  };
-  prioritylevel: {
-    priorityid: number;
-    prioritysymbol: string;
-  };
-}
-
-export interface ErrorResponse {
-  error: string;
+  createdAt: Date;
+  department: string;
+  priority: string;
 }
 
 export interface CreateTicketInput {
@@ -30,24 +21,29 @@ export interface CreateTicketInput {
   department: string;
 }
 
-// Function to get all open tickets
-export async function GetTickets(): Promise<Ticket[] | ErrorResponse> {
+export interface ErrorResponse {
+  error: string;
+}
+
+// Define the path to the JSON file
+const filePath = path.join(process.cwd(), 'tickets.json');
+
+// Function to read tickets from the JSON file
+function readTicketsFromFile(): Ticket[] {
   try {
-    const tickets = await prisma.ticket.findMany({
-      where: { open: true }, // Fetch only open tickets
-      include: {
-        department: true,
-        prioritylevel: true,
-      },
-    });
-    return tickets;
+    const data = fs.readFileSync(filePath, 'utf8');
+    return JSON.parse(data);
   } catch (error) {
-    console.error("Error fetching tickets:", error);
-    return { error: "Error fetching tickets" };
+    return []; // Return an empty array if the file does not exist or cannot be read
   }
 }
 
-// Function to insert a new ticket into the database
+// Function to write tickets to the JSON file
+function writeTicketsToFile(tickets: Ticket[]): void {
+  fs.writeFileSync(filePath, JSON.stringify(tickets, null, 2));
+}
+
+// Function to insert a new ticket into the JSON file
 export async function InsertTicket({ headline, description, priority, department }: CreateTicketInput): Promise<ErrorResponse | null> {
   try {
     // Basic validation
@@ -55,20 +51,27 @@ export async function InsertTicket({ headline, description, priority, department
       return { error: "All fields need to be filled" };
     }
 
-    // Get foreign keys for department and priority level
-    const [depId, PrioID] = await GetForeignData(department, priority);
-    const open = true;
+    // Read existing tickets
+    const tickets = readTicketsFromFile();
 
-    // Create a new ticket in the database
-    await prisma.ticket.create({
-      data: {
-        headline: headline,
-        departmentid: depId,
-        prioritylevelid: PrioID,
-        description: description,
-        open: open,
-      },
-    });
+    // Create a new ticket object
+    const newTicket: Ticket = {
+      id: tickets.length + 1, // Simple way to generate a new ID
+      headline,
+      departmentid: 0, // Placeholder, since we're not using these fields now
+      prioritylevelid: 0, // Placeholder, since we're not using these fields now
+      description,
+      open: true,
+      createdAt: new Date(),
+      department, // Just storing the department name directly
+      priority, // Just storing the priority name directly
+    };
+
+    // Add the new ticket to the array
+    tickets.push(newTicket);
+
+    // Write the updated tickets array to the JSON file
+    writeTicketsToFile(tickets);
 
     return null; // No error, return null
   } catch (error) {
@@ -77,26 +80,31 @@ export async function InsertTicket({ headline, description, priority, department
   }
 }
 
-// Helper function to get foreign keys for department and priority level
-async function GetForeignData(department: string, prio: string): Promise<[number, number]> {
+// Function to get all open tickets from the JSON file
+export async function GetTickets(): Promise<Ticket[] | ErrorResponse> {
   try {
-    const departmentRes = await prisma.department.findFirst({
-      where: { department },
-      select: { departmentid: true },
-    });
+    const tickets = readTicketsFromFile();
+    return tickets.filter(ticket => ticket.open);
+  } catch (error) {
+    console.error("Error fetching tickets:", error);
+    return { error: "Error fetching tickets" };
+  }
+}
 
-    const prioRes = await prisma.prioritylevel.findFirst({
-      where: { prioritysymbol: prio },
-      select: { priorityid: true },
-    });
-
-    if (!departmentRes || !prioRes) {
-      throw new Error('Invalid department or priority');
+// Function to close a ticket by updating its "open" status to false
+export async function CloseTicket(id: number): Promise<ErrorResponse | null> {
+  try {
+    const tickets = readTicketsFromFile();
+    const ticketIndex = tickets.findIndex(ticket => ticket.id === id);
+    if (ticketIndex === -1) {
+      return { error: "Ticket not found" };
     }
 
-    return [departmentRes.departmentid, prioRes.priorityid];
+    tickets[ticketIndex].open = false; // Mark the ticket as closed
+    writeTicketsToFile(tickets);
+    return null; // Success
   } catch (error) {
-    console.error("Error fetching foreign keys:", error);
-    throw new Error("Error fetching foreign keys: " + error.message);
+    console.error('Error closing ticket:', error);
+    return { error: 'Error closing ticket' };
   }
 }
