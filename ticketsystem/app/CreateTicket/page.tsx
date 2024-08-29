@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import MenueBar from "../MenueBar";
 import { InsertTicket } from "../pages/api/DataBaseConnection";
 import { useRouter } from "next/navigation";
-import styles from './CreateTicket.module.css'; // Import the CSS module
 
 const CreateTicketPage: React.FC = () => {
   const [headline, setHeadline] = useState("");
@@ -33,29 +32,35 @@ const CreateTicketPage: React.FC = () => {
   };
 
   return (
-    <div className={styles.pageContainer}>
+    <div>
       <MenueBar />
-      <div className={styles.createTicketWrapper}>
-        <div className={styles.createTicketHeader}>Create a New Ticket</div>
-        <form onSubmit={handleSubmit}>
-          <div className={styles.inputGroup}>
-            <label htmlFor="headline">Ticket Headline</label>
+      <div>
+        <h1 className="flex justify-center text-xl font-bold mt-5">
+          Create a New Ticket
+        </h1>
+        <form
+          className="bg-cyan-400 grid justify-items-center"
+          onSubmit={handleSubmit}
+        >
+          <label htmlFor="headline">Ticket Headline:</label>
+          <div>
             <input
+              className="bg-cyan-300 rounded"
               type="text"
               id="headline"
               value={headline}
               onChange={(e) => setHeadline(e.target.value)}
-              required
+              placeholder="Enter your ticket headline"
             />
           </div>
 
-          <div className={styles.inputGroup}>
-            <label htmlFor="department">Select Department</label>
+          <label htmlFor="department">Select Department:</label>
+          <div>
             <select
+              className="bg-cyan-300 rounded"
               id="department"
               value={department}
               onChange={(e) => setDepartment(e.target.value)}
-              required
             >
               <option value="IT">IT</option>
               <option value="HR">HR</option>
@@ -64,47 +69,41 @@ const CreateTicketPage: React.FC = () => {
             </select>
           </div>
 
-          <div className={styles.inputGroup}>
-            <label>Priority</label>
-            <div className={styles.prioritySlider}>
+          <div>
+            <label>Priority Level</label>
+            <div>
               {["Low", "Medium", "High"].map((level) => (
-                <React.Fragment key={level}>
+                <label key={level}>
                   <input
                     type="radio"
-                    id={level}
                     name="priority"
                     value={level}
                     checked={priority === level}
                     onChange={(e) => setPriority(e.target.value)}
-                    required
                   />
-                  <label htmlFor={level}>{level}</label>
-                </React.Fragment>
+                  <span>{level}</span>
+                </label>
               ))}
             </div>
           </div>
 
-          <div className={styles.inputGroup}>
-            <label htmlFor="description">Description</label>
+          <div>
             <textarea
+              className="bg-cyan-300 rounded-md"
               id="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               rows={5}
-              required
+              placeholder="Describe the issue or request in detail..."
             />
           </div>
 
-          <div className={styles.submitCancelContainer}>
-            <button className={styles.submitButton} type="submit">
-              Submit
-            </button>
-            <button
-              className={styles.cancelButton}
-              type="button"
-              onClick={() => router.push("/OpenTickets")}
-            >
+          <div>
+            <button className="m-3 hover:bg-cyan-500 rounded" type="button">
               Cancel
+            </button>
+            <button className="m-3 hover:bg-cyan-500 rounded" type="submit">
+              Submit Ticket
             </button>
           </div>
         </form>
