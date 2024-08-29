@@ -44,7 +44,6 @@ export async function InsertTicket({ headline, description, priority, department
         departmentid: depId,
         prioritylevelid: prioId,
         open: true,
-        createdAt: new Date(),
       },
     });
 
@@ -83,7 +82,11 @@ async function GetForeignKeys(department: string, priority: string) {
       throw new Error("Invalid department or priority");
     }
 
-    return [departmentRecord.departmentid, priorityRecord.priorityid];
+    // Access the specific properties from the objects returned by Prisma
+    const depId = departmentRecord.departmentid;
+    const prioId = priorityRecord.priorityid;
+
+    return [depId, prioId];
   } catch (error) {
     throw new Error("Error fetching department or priority");
   }
