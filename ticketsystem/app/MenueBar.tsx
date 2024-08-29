@@ -1,12 +1,18 @@
+import React from 'react';
+import Link from 'next/link';
+import styles from './MenueBar.module.css';
 
-import Link from "next/link"
+const MenueBar = () => {
+  return (
+    <nav className={styles.navMenu}>
+      <Link href="/OpenTickets" className={styles.link}>OpenTickets</Link>
+      <Link href="/ClosedTickets" className={styles.link}>ClosedTickets</Link>
+      <Link href="/CreateTicket" className={styles.link}>CreateTicket</Link>
+      <Link href="/FAQ" className={styles.link}>FAQ</Link>
+      <Link href="/SLA" className={styles.link}>SLA</Link>
+      <div className={styles.dot}></div>
+    </nav>
+  );
+};
 
-export default function MenueBar(){
-    return <div className="flex bg-cyan-400 justify-around py-2 font-bold">
-    <a className="hover:bg-blue-500 rounded p-2" href="/OpenTickets">OpenTickets</a>
-    <a className="hover:bg-blue-500 rounded p-2" href="/ClosedTickets">ClosedTickets</a>
-    <a className="hover:bg-blue-500 rounded p-2" href="/CreateTicket">CreateTicket</a>
-    <a className="hover:bg-blue-500 rounded p-2" href="/FAQ">FAQ</a> 
-    <a className="hover:bg-blue-500 rounded p-2" href="/SLA">SLA</a> 
-</div>
-}
+export default MenueBar;

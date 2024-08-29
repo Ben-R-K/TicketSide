@@ -1,7 +1,60 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-*{
-    margin: 0;
-    padding: 0;
-}
+/* Footer CSS */
+.footer {
+    position: relative;
+    padding: 3rem 0;
+    background: #1e90ff;
+    color: white;
+  }
+  
+  .footer__columns {
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: 1200px;
+  }
+  
+  .footer__col-title {
+    font-size: 1.6rem;
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    color: white;
+  }
+  
+  .footer__nav-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .footer__nav-link {
+    color: white;
+    text-decoration: none;
+  }
+  
+  .footer__nav-link:hover {
+    text-decoration: underline;
+  }
+  
+  .footer__copyrights {
+    padding-top: 3rem;
+    margin-top: 3rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+  }
+  
+  .footer__copyrights p {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .footer__copyrights a {
+    margin-left: 0.5rem;
+    color: white;
+    text-decoration: none;
+  }
+  

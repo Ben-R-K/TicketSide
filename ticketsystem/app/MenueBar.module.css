@@ -1,0 +1,63 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap");
+
+.navMenu {
+  text-align: center;
+  padding: 20px;
+  font-family: "Montserrat", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 30px; /* Space between menu items */
+  background: none; /* No background behind the menu items */
+}
+
+.navMenu a {
+  color: #1e90ff; /* Blue text color */
+  text-decoration: none;
+  font-size: 1.2em;
+  text-transform: uppercase;
+  font-weight: 500;
+  position: relative;
+  transition: all 0.2s ease-in-out;
+}
+
+.navMenu a:hover {
+  color: #00c3ff; /* Yellow highlight on hover */
+}
+
+.navMenu .dot {
+  width: 6px;
+  height: 6px;
+  background: #1e90ff; /* Blue color for the dot */
+  border-radius: 50%;
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+}
+
+.navMenu a:hover .dot {
+  opacity: 1;
+}
+
+.navMenu a:nth-child(1):hover ~ .dot {
+  transform: translateX(calc(50% - 150px));
+}
+
+.navMenu a:nth-child(2):hover ~ .dot {
+  transform: translateX(calc(50% - 60px));
+}
+
+.navMenu a:nth-child(3):hover ~ .dot {
+  transform: translateX(calc(50% + 30px));
+}
+
+.navMenu a:nth-child(4):hover ~ .dot {
+  transform: translateX(calc(50% + 120px));
+}
+
+.navMenu a:nth-child(5):hover ~ .dot {
+  transform: translateX(calc(50% + 210px));
+}
