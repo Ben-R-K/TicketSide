@@ -37,35 +37,35 @@ const CreateTicketPage: React.FC = () => {
       <MenueBar />
       <div className={styles.createTicketWrapper}>
         <div className={styles.createTicketHeader}>Create a New Ticket</div>
-        <div className={styles.createTicketContainer}>
-          <form onSubmit={handleSubmit}>
-            <div className={styles.inputGroup}>
-              <input
-                type="text"
-                id="headline"
-                value={headline}
-                onChange={(e) => setHeadline(e.target.value)}
-                placeholder="Enter your ticket headline"
-                required
-              />
-              <label htmlFor="headline">Ticket Headline</label>
-            </div>
+        <form onSubmit={handleSubmit}>
+          <div className={styles.inputGroup}>
+            <label htmlFor="headline">Ticket Headline</label>
+            <input
+              type="text"
+              id="headline"
+              value={headline}
+              onChange={(e) => setHeadline(e.target.value)}
+              required
+            />
+          </div>
 
-            <div className={styles.inputGroup}>
-              <select
-                id="department"
-                value={department}
-                onChange={(e) => setDepartment(e.target.value)}
-                required
-              >
-                <option value="IT">IT</option>
-                <option value="HR">HR</option>
-                <option value="Finance">Finance</option>
-                <option value="Marketing">Marketing</option>
-              </select>
-              <label htmlFor="department">Select Department</label>
-            </div>
+          <div className={styles.inputGroup}>
+            <label htmlFor="department">Select Department</label>
+            <select
+              id="department"
+              value={department}
+              onChange={(e) => setDepartment(e.target.value)}
+              required
+            >
+              <option value="IT">IT</option>
+              <option value="HR">HR</option>
+              <option value="Finance">Finance</option>
+              <option value="Marketing">Marketing</option>
+            </select>
+          </div>
 
+          <div className={styles.inputGroup}>
+            <label>Priority</label>
             <div className={styles.prioritySlider}>
               {["Low", "Medium", "High"].map((level) => (
                 <React.Fragment key={level}>
@@ -82,32 +82,32 @@ const CreateTicketPage: React.FC = () => {
                 </React.Fragment>
               ))}
             </div>
+          </div>
 
-            <div className={styles.inputGroup}>
-              <textarea
-                id="description"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                rows={5}
-                required
-              />
-              <label htmlFor="description">Description</label>
-            </div>
+          <div className={styles.inputGroup}>
+            <label htmlFor="description">Description</label>
+            <textarea
+              id="description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              rows={5}
+              required
+            />
+          </div>
 
-            <div className={styles.submitCancelContainer}>
-              <button className={styles.submitButton} type="submit">
-                Submit
-              </button>
-              <button
-                className={styles.cancelButton}
-                type="button"
-                onClick={() => router.push("/OpenTickets")}
-              >
-                Cancel
-              </button>
-            </div>
-          </form>
-        </div>
+          <div className={styles.submitCancelContainer}>
+            <button className={styles.submitButton} type="submit">
+              Submit
+            </button>
+            <button
+              className={styles.cancelButton}
+              type="button"
+              onClick={() => router.push("/OpenTickets")}
+            >
+              Cancel
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   );
