@@ -1,10 +1,20 @@
-import Image from "next/image";
+import { GetAcounts } from "./pages/api/DataBaseConnection";
 
-
-export default function Home(){
+export default async function Home(){
+    
+    const acounts = await GetAcounts();
     return(
-        <div>
-            <button>Create Acounts</button>
+        <div className="mx-[200]">
+            <ul className="mt-2">
+            {acounts.map((acount)=>(
+                <li key={acount.id}>
+                    <a href="/OpenTickets">
+                        <h1>{acount.acount_name}</h1>
+                        <p>{acount.department.department}</p>
+                    </a>
+                </li>
+            ))}
+        </ul>
         </div>
   );
 }

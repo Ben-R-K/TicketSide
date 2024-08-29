@@ -1,8 +1,20 @@
 "use server"
 import prisma from '../../lib/prisma';
 
+
+export async function GetAcounts() {
+
+      const acounts = await prisma.acount.findMany({
+        select: { id: true,
+                acount_name: true,
+                department: true}
+      });
+      return acounts;
+
+  }
+
 export async function GetTickets() {
-    try {
+  try {
       const tickets = await prisma.ticket.findMany();
       console.log(tickets);
     } catch (error) {
@@ -23,7 +35,8 @@ export async function InsertTicket({headline, description, priority, department}
       if (!headline || !department || !priority || !description) {
         return {error: "All filds need to be filde"}
       }
-      const [depId, PrioID] = await GetForiegnData(department, priority)
+      const depId = await GetDepartmentId(department);
+        const PrioID = await GetPriorityId(priority)
       const open = true;
       // Create a new ticket in the database
       await prisma.ticket.create({
@@ -39,8 +52,8 @@ export async function InsertTicket({headline, description, priority, department}
       return {error: 'Error creating ticket'}
     }
   }
-  async function GetForiegnData(department: string, prio: string){
-    var departmentres, priores;  
+  async function GetDepartmentId(department: string){
+    var departmentres;  
   try{
       departmentres = await prisma.department.findFirst({
         where:{ department: department},
@@ -49,6 +62,10 @@ export async function InsertTicket({headline, description, priority, department}
     } catch (error) {
       return "Error fetching from department"
     }
+    return departmentres.departmentid;
+  }
+  async function GetPriorityId(prio: string){
+    var priores;  
     try{
         priores = await prisma.prioritylevel.findFirst({
         where:{ prioritysymbol: prio},
@@ -57,5 +74,5 @@ export async function InsertTicket({headline, description, priority, department}
     } catch (error) {
       return "Error fetching from prioritylevel"
     }
-    return [departmentres.departmentid, priores.priorityid];
+    return priores.priorityid;
   }

@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,33 +7,36 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Ticket {
-  id       Int    @id @default(autoincrement())
-  headline String
-  department department @relation(fields: [departmentid], references: [departmentid])
-  departmentid Int
-  prioritylevel prioritylevel @relation(fields: [prioritylevelid], references: [priorityid])
-  prioritylevelid Int
-  description String @db.VarChar(500)
-  open Boolean
-}
-
 model department {
-  departmentid Int @id @default(autoincrement())
-  department String
-  Tickets Ticket[]
-  Acounts Acount[]
+  departmentid Int      @id @default(autoincrement())
+  department   String
+  ticket       ticket[]
+  acount       acount[]
 }
 
 model prioritylevel {
-  priorityid Int @id @default(autoincrement())
+  priorityid     Int      @id @default(autoincrement())
   prioritysymbol String
-  Tickets Ticket[]
+  ticket         ticket[]
 }
 
-model Acount {
-  acountid Int  @id @default(autoincrement())
-  name String
-  department department @relation(fields: [depatmentid], references: [departmentid])
-  depatmentid Int
+model acount {
+  id        Int    @id @default(autoincrement())
+  acount_name String
+  departmentid Int
+  department department @relation(fields: [departmentid], references: [departmentid], map: "acount_departmentid_fkey")
+}
+
+model ticket {
+  id              Int           @id @default(autoincrement())
+  headline        String
+  departmentid    Int
+  prioritylevelid Int
+  description     String        @db.VarChar(500)
+  open            Boolean
+  department      department    @relation(fields: [departmentid], references: [departmentid], map: "Ticket_departmentid_fkey")
+  prioritylevel   prioritylevel @relation(fields: [prioritylevelid], references: [priorityid], map: "Ticket_prioritylevelid_fkey")
+
+  @@index([departmentid], map: "Ticket_departmentid_fkey")
+  @@index([prioritylevelid], map: "Ticket_prioritylevelid_fkey")
 }
