@@ -3,22 +3,40 @@
 import { InsertTicket } from "../pages/api/DataBaseConnection";
 import MenueBar from "../MenueBar";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 
 const CreateTicketPage: React.FC = () => {
   const [headline, setHeadline] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState("Low");
   const [department, setDepartment] = useState("IT");
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-      InsertTicket({headline, description, priority, department});
+
+    const result = await InsertTicket({
+      headline,
+      description,
+      priority,
+      department,
+    });
+
+    if (result && result.error) {
+      alert(result.error);
+    } else {
+      // Optionally clear the form or navigate to another page
+      setHeadline("");
+      setDescription("");
+      setPriority("Low");
+      setDepartment("IT");
+      router.push("/OpenTickets"); // Navigate to the Open Tickets page
+    }
   };
 
   return (
     <div>
-      <MenueBar/>
-      {/* Create Ticket Form */}
+      <MenueBar />
       <div className="grid">
         <h1 className="flex justify-center text-xl font-bold mt-5">
           Create a New Ticket
@@ -36,15 +54,18 @@ const CreateTicketPage: React.FC = () => {
               value={headline}
               onChange={(e) => setHeadline(e.target.value)}
               placeholder="Enter your ticket headline"
+              required
             />
           </div>
 
           <label htmlFor="department">Select the Department:</label>
           <div>
-            <select className="bg-cyan-300 rounded"
+            <select
+              className="bg-cyan-300 rounded"
               id="department"
               value={department}
               onChange={(e) => setDepartment(e.target.value)}
+              required
             >
               <option value="IT">IT</option>
               <option value="HR">HR</option>
@@ -64,6 +85,7 @@ const CreateTicketPage: React.FC = () => {
                     value={level}
                     checked={priority === level}
                     onChange={(e) => setPriority(e.target.value)}
+                    required
                   />
                   <span>{level}</span>
                 </label>
@@ -79,12 +101,17 @@ const CreateTicketPage: React.FC = () => {
               onChange={(e) => setDescription(e.target.value)}
               rows={5}
               placeholder="Describe the issue or request in detail..."
+              required
             />
           </div>
 
           <div>
-            <button className="m-3 hover:bg-cyan-500 rounded" type="button">Cancel</button>
-            <button className="m-3 hover:bg-cyan-500 rounded" type="submit">Submit Ticket</button>
+            <button className="m-3 hover:bg-cyan-500 rounded" type="button">
+              Cancel
+            </button>
+            <button className="m-3 hover:bg-cyan-500 rounded" type="submit">
+              Submit Ticket
+            </button>
           </div>
         </form>
       </div>
