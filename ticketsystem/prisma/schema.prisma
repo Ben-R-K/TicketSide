@@ -21,11 +21,13 @@ model prioritylevel {
 }
 
 model acount {
-  acountid    Int        @id @default(autoincrement())
-  acount_name        String
+  acount_name  String
   departmentid Int
-  department  department @relation(fields: [departmentid], references: [departmentid], map: "Acount_depatmentid_fkey")
+  acountid     Int        @id @default(autoincrement())
+  department   department @relation(fields: [departmentid], references: [departmentid], map: "Acount_depatmentid_fkey")
+  ticket       ticket[]
 
+  @@index([departmentid], map: "Acount_depatmentid_fkey")
 }
 
 model ticket {
@@ -35,10 +37,27 @@ model ticket {
   prioritylevelid Int
   description     String        @db.VarChar(500)
   open            Boolean
+  acountid        Int?
   createdAt       DateTime      @default(now())
+  acount          acount?       @relation(fields: [acountid], references: [acountid], map: "Ticket_Acount_fkey")
   department      department    @relation(fields: [departmentid], references: [departmentid], map: "Ticket_departmentid_fkey")
   prioritylevel   prioritylevel @relation(fields: [prioritylevelid], references: [priorityid], map: "Ticket_prioritylevelid_fkey")
 
   @@index([departmentid], map: "Ticket_departmentid_fkey")
   @@index([prioritylevelid], map: "Ticket_prioritylevelid_fkey")
+  @@index([acountid], map: "Ticket_Acount_fkey")
+}
+
+model sla {
+  SLAid                          Int      @id @default(autoincrement())
+  headline                       String
+  companysignature               String
+  partnersignature               String
+  ConfidentialityTerminationLaw  String   @db.MediumText
+  EffectiveDate                  DateTime @db.Date
+  ExpirationDate                 DateTime @db.Date
+  PerformanceEscalationPenalties String   @db.MediumText
+  Responsibilities               String   @db.MediumText
+  ScopeofServices                String   @db.MediumText
+  ServiceLevelObjectives         String   @db.MediumText
 }
