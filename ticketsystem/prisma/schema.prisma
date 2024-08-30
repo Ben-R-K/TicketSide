@@ -37,7 +37,7 @@ model ticket {
   open            Boolean
   createdAt       DateTime      @default(now())
   department      department    @relation(fields: [departmentid], references: [departmentid], map: "Ticket_departmentid_fkey")
-  prioritylevel   prioritylevel @relation(fields: [prioritylevelid], references: [priorityid], map: "Ticket_prioritylevelid_fkey")
+  prioritylevel   prioritylevel @relation(fields: [prioritylevelid], references: [priorityid], map: "Ticket_prioritylevelid_fkey")    
 
   @@index([departmentid], map: "Ticket_departmentid_fkey")
   @@index([prioritylevelid], map: "Ticket_prioritylevelid_fkey")

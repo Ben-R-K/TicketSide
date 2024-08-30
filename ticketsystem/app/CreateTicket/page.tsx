@@ -11,8 +11,8 @@ const CreateTicketPage: React.FC = () => {
   const [prioritylevel, setPriority] = useState("Low");
   const [department, setDepartment] = useState("IT");
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const [createdBy, setCreatedBy] = useState("User's Name"); // Replace with actual user or account name
   const router = useRouter();
+  const CreatorID = parseInt(localStorage.getItem("CreatorID") || "0", 10); // get CreatorID 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,7 +21,7 @@ const CreateTicketPage: React.FC = () => {
       description,
       prioritylevel,
       department,
-      createdBy, // Pass the creator's name
+      CreatorID, // Pass CreatorID from the application state or context
     });
 
     if (result && result.error) {
@@ -81,7 +81,7 @@ const CreateTicketPage: React.FC = () => {
                     href="#"
                     onClick={() => {
                       setDepartment(dept);
-                      setOpenDropdown(null);  // Close the dropdown after selection
+                      setOpenDropdown(null);  
                     }}
                   >
                     {dept}
@@ -110,7 +110,7 @@ const CreateTicketPage: React.FC = () => {
                     href="#"
                     onClick={() => {
                       setPriority(level);
-                      setOpenDropdown(null);  // Close the dropdown after selection
+                      setOpenDropdown(null);  
                     }}
                   >
                     {level}

@@ -19,7 +19,7 @@ export interface OutputTicket {
   department: Department;
   open: boolean;
   createdAt: Date;
-  createdBy: string; // Ensure this is included
+  CreatorID: number; 
 }
 
 export interface InputTicket {
@@ -30,7 +30,7 @@ export interface InputTicket {
   department: string;
   open: boolean;
   createdAt: Date;
-  createdBy: string; // Ensure this is included
+  CreatorID: number; 
 }
 
 export interface ErrorResponse {
@@ -39,16 +39,15 @@ export interface ErrorResponse {
 
 // Fetch accounts
 export async function GetAccounts() {
-  
   try {
-    const acounts = await prisma.acount.findMany({
+    const accounts = await prisma.acount.findMany({
       select: {
         acountid: true,
         acount_name: true,
         department: true,
       },
     });
-    return acounts;
+    return accounts;
   } catch (error) {
     return { error: "Error fetching accounts" };
   }
@@ -70,11 +69,11 @@ export async function GetTickets() {
 }
 
 // Insert a new ticket
-export async function InsertTicket({ headline, description, prioritylevel, department, createdBy }: Omit<InputTicket, 'id' | 'open' | 'createdAt'>) {
+export async function InsertTicket({ headline, description, prioritylevel, department, CreatorID }: Omit<InputTicket, 'id' | 'open' | 'createdAt'>) {
   try {
-    console.log("Inserting ticket with values:", { headline, description, prioritylevel, department, createdBy });
+    console.log("Inserting ticket with values:", { headline, description, prioritylevel, department, CreatorID });
 
-    if (!headline || !description || !prioritylevel || !department || !createdBy) {
+    if (!headline || !description || !prioritylevel || !department || !CreatorID) {
       return { error: "All fields need to be filled" };
     }
 
@@ -87,7 +86,7 @@ export async function InsertTicket({ headline, description, prioritylevel, depar
         departmentid: depId,
         prioritylevelid: prioId,
         open: true,
-        createdBy
+        CreatorID, 
       },
     });
 
