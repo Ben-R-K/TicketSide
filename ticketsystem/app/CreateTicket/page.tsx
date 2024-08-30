@@ -10,7 +10,7 @@ const CreateTicketPage: React.FC = () => {
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState("Low");
   const [department, setDepartment] = useState("IT");
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null);  // State to track which dropdown is open
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -29,7 +29,7 @@ const CreateTicketPage: React.FC = () => {
       setDescription("");
       setPriority("Low");
       setDepartment("IT");
-      router.push("/OpenTickets"); // Navigate to the Open Tickets page
+      router.push("/OpenTickets");
     }
   };
 
@@ -38,110 +38,111 @@ const CreateTicketPage: React.FC = () => {
   };
 
   return (
-    <div className="page-background">
-      <MenueBar />  {/* Menu bar at the top */}
-      <div className="create-ticket-container">
-        <h1 className="create-ticket-header">Create a New Ticket</h1>
-        <form className="create-ticket-form" onSubmit={handleSubmit}>
-          <div className="form-control">
-            <input
-              type="text"
-              id="headline"
-              value={headline}
-              onChange={(e) => setHeadline(e.target.value)}
-              placeholder=" "
-              required
-            />
-            <label htmlFor="headline">
-              <span>Ticket Headline</span>
-            </label>
-          </div>
-
-          {/* Label for Department Dropdown */}
-          <label className="dropdown-label" htmlFor="department-dropdown">Select Department:</label>
-          <div className="priority-dropdown-container">
-            <input
-              className="dropdown"
-              type="checkbox"
-              id="department-dropdown"
-              name="department-dropdown"
-              checked={openDropdown === "department"}
-              onChange={() => toggleDropdown("department")}
-            />
-            <label className="for-dropdown" htmlFor="department-dropdown">
-              {department} <span className="icon">&#9662;</span> {/* Dropdown icon */}
-            </label>
-            <div className="section-dropdown">
-              {["IT", "HR", "Finance", "Marketing"].map((dept) => (
-                <a
-                  key={dept}
-                  href="#"
-                  onClick={() => {
-                    setDepartment(dept);
-                    setOpenDropdown(null);  // Close the dropdown after selection
-                  }}
-                >
-                  {dept}
-                </a>
-              ))}
+    <div className="flex flex-col min-h-screen bg-gray-100">
+      <MenueBar /> {/* Menu bar at the top */}
+      <div className="flex justify-center items-center flex-grow">
+        <div className="create-ticket-container bg-white p-6 rounded-lg shadow-md">
+          <h1 className="create-ticket-header text-2xl font-bold mb-6">Create a New Ticket</h1>
+          <form className="create-ticket-form" onSubmit={handleSubmit}>
+            <div className="form-control mb-4">
+              <input
+                type="text"
+                id="headline"
+                value={headline}
+                onChange={(e) => setHeadline(e.target.value)}
+                placeholder=" "
+                required
+                className="border border-gray-300 rounded p-2 w-full"
+              />
+              <label htmlFor="headline" className="text-sm text-gray-600">
+                <span>Ticket Headline</span>
+              </label>
             </div>
-          </div>
 
-          {/* Label for Priority Dropdown */}
-          <label className="dropdown-label" htmlFor="priority-dropdown">Priority Level:</label>
-          <div className="priority-dropdown-container">
-            <input
-              className="dropdown"
-              type="checkbox"
-              id="priority-dropdown"
-              name="priority-dropdown"
-              checked={openDropdown === "priority"}
-              onChange={() => toggleDropdown("priority")}
-            />
-            <label className="for-dropdown" htmlFor="priority-dropdown">
-              {priority} <span className="icon">&#9662;</span> {/* Dropdown icon */}
-            </label>
-            <div className="section-dropdown">
-              {["Low", "Medium", "High"].map((level) => (
-                <a
-                  key={level}
-                  href="#"
-                  onClick={() => {
-                    setPriority(level);
-                    setOpenDropdown(null);  // Close the dropdown after selection
-                  }}
-                >
-                  {level}
-                </a>
-              ))}
+            <label className="dropdown-label text-sm text-gray-600" htmlFor="department-dropdown">Select Department:</label>
+            <div className="priority-dropdown-container mb-4">
+              <input
+                className="dropdown"
+                type="checkbox"
+                id="department-dropdown"
+                name="department-dropdown"
+                checked={openDropdown === "department"}
+                onChange={() => toggleDropdown("department")}
+              />
+              <label className="for-dropdown" htmlFor="department-dropdown">
+                {department} <span className="icon">&#9662;</span>
+              </label>
+              <div className="section-dropdown">
+                {["IT", "HR", "Finance", "Marketing"].map((dept) => (
+                  <a
+                    key={dept}
+                    href="#"
+                    onClick={() => {
+                      setDepartment(dept);
+                      setOpenDropdown(null);  // Close the dropdown after selection
+                    }}
+                  >
+                    {dept}
+                  </a>
+                ))}
+              </div>
             </div>
-          </div>
 
-          <div className="coolinput">
-            <textarea
-              id="description"
-              className="input"
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              placeholder=" "
-              required
-            />
-            <label htmlFor="description" className="text">Description</label>
-          </div>
+            <label className="dropdown-label text-sm text-gray-600" htmlFor="priority-dropdown">Priority Level:</label>
+            <div className="priority-dropdown-container mb-4">
+              <input
+                className="dropdown"
+                type="checkbox"
+                id="priority-dropdown"
+                name="priority-dropdown"
+                checked={openDropdown === "priority"}
+                onChange={() => toggleDropdown("priority")}
+              />
+              <label className="for-dropdown" htmlFor="priority-dropdown">
+                {priority} <span className="icon">&#9662;</span>
+              </label>
+              <div className="section-dropdown">
+                {["Low", "Medium", "High"].map((level) => (
+                  <a
+                    key={level}
+                    href="#"
+                    onClick={() => {
+                      setPriority(level);
+                      setOpenDropdown(null);  // Close the dropdown after selection
+                    }}
+                  >
+                    {level}
+                  </a>
+                ))}
+              </div>
+            </div>
 
-          <div className="submit-cancel-container">
-            <button
-              className="cancel-button"
-              type="button"
-              onClick={() => router.push("/OpenTickets")}
-            >
-              Cancel
-            </button>
-            <button className="submit-button" type="submit">
-              Submit Ticket
-            </button>
-          </div>
-        </form>
+            <div className="coolinput mb-6">
+              <textarea
+                id="description"
+                className="input border border-gray-300 rounded p-2 w-full"
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder=" "
+                required
+              />
+              <label htmlFor="description" className="text-sm text-gray-600">Description</label>
+            </div>
+
+            <div className="submit-cancel-container flex justify-end space-x-4">
+              <button
+                className="cancel-button bg-gray-200 text-gray-700 px-4 py-2 rounded"
+                type="button"
+                onClick={() => router.push("/OpenTickets")}
+              >
+                Cancel
+              </button>
+              <button className="submit-button bg-blue-600 text-white px-4 py-2 rounded" type="submit">
+                Submit Ticket
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

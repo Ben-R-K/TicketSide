@@ -1,14 +1,15 @@
+// DatabaseConnection.ts
 "use server";
-import prisma from "../../lib/prisma"; // Adjust the import path based on your project structure
+import prisma from "../../lib/prisma";
 
 export interface Department {
   departmentId: number;
   department: string;
 }
 
-export interface Priority{
-  priorityid: number
-  prioritysymbol: string
+export interface Priority {
+  priorityid: number;
+  prioritysymbol: string;
 }
 
 export interface Ticket {
@@ -19,24 +20,30 @@ export interface Ticket {
   department: Department;
   open: boolean;
   createdAt: Date;
+  createdBy: string;
 }
 
 export interface ErrorResponse {
   error: string;
 }
 
-
-export async function GetAcounts() {
-
-      const acounts = await prisma.acount.findMany({
-        select: { acountid: true,
-                acount_name: true,
-                department: true}
-      });
-      return acounts;
-
+// Fetch accounts
+export async function GetAccounts() {
+  try {
+    const accounts = await prisma.account.findMany({
+      select: {
+        accountid: true,
+        account_name: true,
+        department: true,
+      },
+    });
+    return accounts;
+  } catch (error) {
+    return { error: "Error fetching accounts" };
   }
+}
 
+// Fetch tickets
 export async function GetTickets() {
   try {
     const tickets = await prisma.ticket.findMany({
@@ -51,9 +58,10 @@ export async function GetTickets() {
   }
 }
 
-export async function InsertTicket({ headline, description, priority, department }: Omit<Ticket, 'id' | 'open' | 'createdAt'>) {
+// Insert a new ticket
+export async function InsertTicket({ headline, description, priority, department, createdBy }: Omit<Ticket, 'id' | 'open' | 'createdAt'>) {
   try {
-    if (!headline || !department || !priority || !description) {
+    if (!headline || !department || !priority || !description || !createdBy) {
       return { error: "All fields need to be filled" };
     }
 
@@ -66,6 +74,7 @@ export async function InsertTicket({ headline, description, priority, department
         departmentid: depId,
         prioritylevelid: prioId,
         open: true,
+        createdBy,
       },
     });
 
@@ -75,6 +84,7 @@ export async function InsertTicket({ headline, description, priority, department
   }
 }
 
+// Close a ticket
 export async function CloseTicket(ticketId: number) {
   try {
     const closedTicket = await prisma.ticket.update({
@@ -104,11 +114,7 @@ async function GetForeignKeys(department: string, priority: string) {
       throw new Error("Invalid department or priority");
     }
 
-    // Access the specific properties from the objects returned by Prisma
-    const depId = departmentRecord.departmentid;
-    const prioId = priorityRecord.priorityid;
-
-    return [depId, prioId];
+    return [departmentRecord.departmentid, priorityRecord.priorityid];
   } catch (error) {
     throw new Error("Error fetching department or priority");
   }

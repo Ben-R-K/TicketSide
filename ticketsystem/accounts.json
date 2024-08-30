@@ -1,0 +1,19 @@
+[
+    {
+      "acountid": 1,
+      "acount_name": "John Doe",
+      "department": {
+        "departmentId": 1,
+        "department": "IT"
+      }
+    },
+    {
+      "acountid": 2,
+      "acount_name": "Jane Smith",
+      "department": {
+        "departmentId": 2,
+        "department": "HR"
+      }
+    }
+  ]
+  
