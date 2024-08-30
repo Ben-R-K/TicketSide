@@ -8,7 +8,7 @@ import './CreateTicketPage.css';
 const CreateTicketPage: React.FC = () => {
   const [headline, setHeadline] = useState("");
   const [description, setDescription] = useState("");
-  const [priority, setPriority] = useState("Low");
+  const [prioritylevel, setPriority] = useState("Low");
   const [department, setDepartment] = useState("IT");
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [createdBy, setCreatedBy] = useState("User's Name"); // Replace with actual user or account name
@@ -19,7 +19,7 @@ const CreateTicketPage: React.FC = () => {
     const result = await InsertTicket({
       headline,
       description,
-      priority,
+      prioritylevel,
       department,
       createdBy, // Pass the creator's name
     });
@@ -101,7 +101,7 @@ const CreateTicketPage: React.FC = () => {
                 onChange={() => toggleDropdown("priority")}
               />
               <label className="for-dropdown" htmlFor="priority-dropdown">
-                {priority} <span className="icon">&#9662;</span>
+                {prioritylevel} <span className="icon">&#9662;</span>
               </label>
               <div className="section-dropdown">
                 {["Low", "Medium", "High"].map((level) => (

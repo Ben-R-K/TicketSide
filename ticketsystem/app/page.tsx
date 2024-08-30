@@ -10,7 +10,6 @@ export default function Home() {
   useEffect(() => {
     async function fetchAccounts() {
       const result = await GetAccounts();
-
       if ("error" in result) {
         console.error(result.error);
       } else {
@@ -20,8 +19,8 @@ export default function Home() {
     fetchAccounts();
   }, []);
 
-  const handleAccountSelection = (account: any) => {
-    router.push(`/OpenTickets?acount_name=${account.account_name}&department=${account.department.department}`);
+  const handleAccountSelection = (acount: any) => {
+    router.push(`/OpenTickets?acount_name=${acount.acount_name}&department=${acount.department.department}`);
   };
 
   return (
@@ -29,14 +28,14 @@ export default function Home() {
       <h1 className="text-3xl font-bold mb-6">Select an Account</h1>
       <ul className="space-y-4">
         {accounts.length > 0 ? (
-          accounts.map((account) => (
+          accounts.map((acount) => (
             <li
-              key={account.accountid}
+              key={acount.acountid}
               className="p-4 bg-white border border-gray-300 rounded-lg hover:bg-blue-50 cursor-pointer transition duration-200 w-72 text-center"
-              onClick={() => handleAccountSelection(account)}
+              onClick={() => handleAccountSelection(acount)}
             >
-              <p className="text-lg font-semibold text-blue-800">{account.account_name}</p>
-              <p className="text-sm text-gray-600">Department: {account.department.department}</p>
+              <p className="text-lg font-semibold text-blue-800">{acount.account_name}</p>
+              <p className="text-sm text-gray-600">Department: {acount.department.department}</p>
             </li>
           ))
         ) : (

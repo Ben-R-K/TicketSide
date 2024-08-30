@@ -1,11 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { GetTickets, Ticket, CloseTicket } from "@/app/pages/api/DataBaseConnection";
+import { GetTickets, OutputTicket, CloseTicket } from "@/app/pages/api/DataBaseConnection";
 import MenueBar from "../MenueBar";
 
 export default function OpenTickets() {
-  const [tickets, setTickets] = useState<Ticket[]>([]);
+  const [tickets, setTickets] = useState<OutputTicket[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [accountName, setAccountName] = useState<string | null>(null);
   const [departmentName, setDepartmentName] = useState<string | null>(null);

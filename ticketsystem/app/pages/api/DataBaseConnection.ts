@@ -11,12 +11,23 @@ export interface Priority {
   prioritysymbol: string;
 }
 
-export interface Ticket {
+export interface OutputTicket {
   id: number;
   headline: string;
   description: string;
   prioritylevel: Priority;
   department: Department;
+  open: boolean;
+  createdAt: Date;
+  createdBy: string; // Ensure this is included
+}
+
+export interface InputTicket {
+  id: number;
+  headline: string;
+  description: string;
+  prioritylevel: string;
+  department: string;
   open: boolean;
   createdAt: Date;
   createdBy: string; // Ensure this is included
@@ -28,15 +39,16 @@ export interface ErrorResponse {
 
 // Fetch accounts
 export async function GetAccounts() {
+  
   try {
-    const accounts = await prisma.acount.findMany({
+    const acounts = await prisma.acount.findMany({
       select: {
         acountid: true,
-        account_name: true,
+        acount_name: true,
         department: true,
       },
     });
-    return accounts;
+    return acounts;
   } catch (error) {
     return { error: "Error fetching accounts" };
   }
@@ -58,15 +70,15 @@ export async function GetTickets() {
 }
 
 // Insert a new ticket
-export async function InsertTicket({ headline, description, priority, department, createdBy }: Omit<Ticket, 'id' | 'open' | 'createdAt'>) {
+export async function InsertTicket({ headline, description, prioritylevel, department, createdBy }: Omit<InputTicket, 'id' | 'open' | 'createdAt'>) {
   try {
-    console.log("Inserting ticket with values:", { headline, description, priority, department, createdBy });
+    console.log("Inserting ticket with values:", { headline, description, prioritylevel, department, createdBy });
 
-    if (!headline || !description || !priority || !department || !createdBy) {
+    if (!headline || !description || !prioritylevel || !department || !createdBy) {
       return { error: "All fields need to be filled" };
     }
 
-    const [depId, prioId] = await GetForeignKeys(department, priority);
+    const [depId, prioId] = await GetForeignKeys(department, prioritylevel);
 
     const newTicket = await prisma.ticket.create({
       data: {
@@ -75,7 +87,7 @@ export async function InsertTicket({ headline, description, priority, department
         departmentid: depId,
         prioritylevelid: prioId,
         open: true,
-        createdBy,
+        createdBy
       },
     });
 
