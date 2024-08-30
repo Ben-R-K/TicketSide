@@ -6,11 +6,16 @@ export interface Department {
   department: string;
 }
 
+export interface Priority{
+  priorityid: number
+  prioritysymbol: string
+}
+
 export interface Ticket {
   id: number;
   headline: string;
   description: string;
-  priority: string;
+  prioritylevel: Priority;
   department: Department;
   open: boolean;
   createdAt: Date;
