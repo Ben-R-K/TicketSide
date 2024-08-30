@@ -19,9 +19,14 @@ export default function Home() {
     fetchAccounts();
   }, []);
 
-  const handleAccountSelection = (acount: any) => {
-    router.push(`/OpenTickets?acount_name=${acount.acount_name}&department=${acount.department.department}`);
+  const handleAccountSelection = (account: any) => {
+    localStorage.setItem("CreatorID", account.acountid); // Store CreatorID in localStorage
+    localStorage.setItem("acount_name", account.acount_name); // Store account name in localStorage
+    localStorage.setItem("department", account.department.department); // Store department in localStorage
+  
+    router.push(`/OpenTickets?acount_name=${account.acount_name}&department=${account.department.department}`);
   };
+  
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">

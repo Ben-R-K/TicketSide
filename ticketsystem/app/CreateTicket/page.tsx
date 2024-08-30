@@ -12,16 +12,25 @@ const CreateTicketPage: React.FC = () => {
   const [department, setDepartment] = useState("IT");
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const router = useRouter();
-  const CreatorID = parseInt(localStorage.getItem("CreatorID") || "0", 10); // get CreatorID 
+
+  // Retrieve CreatorID and name from localStorage
+  const CreatorID = parseInt(localStorage.getItem("CreatorID") || "0", 10);
+  const creatorName = localStorage.getItem("acount_name") || "Unknown User"; // Retrieve the account name
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!CreatorID) {
+      alert("Invalid CreatorID. Please make sure you are logged in or have selected an account.");
+      return;
+    }
+
     const result = await InsertTicket({
       headline,
       description,
       prioritylevel,
       department,
-      CreatorID, // Pass CreatorID from the application state or context
+      CreatorID, 
+      createdBy: creatorName, 
     });
 
     if (result && result.error) {
