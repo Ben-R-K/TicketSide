@@ -1,4 +1,3 @@
-// DatabaseConnection.ts
 "use server";
 import prisma from "../../lib/prisma";
 
@@ -20,7 +19,7 @@ export interface Ticket {
   department: Department;
   open: boolean;
   createdAt: Date;
-  createdBy: string;
+  createdBy: string; // Ensure this is included
 }
 
 export interface ErrorResponse {
@@ -30,9 +29,9 @@ export interface ErrorResponse {
 // Fetch accounts
 export async function GetAccounts() {
   try {
-    const accounts = await prisma.account.findMany({
+    const accounts = await prisma.acount.findMany({
       select: {
-        accountid: true,
+        acountid: true,
         account_name: true,
         department: true,
       },
@@ -61,7 +60,9 @@ export async function GetTickets() {
 // Insert a new ticket
 export async function InsertTicket({ headline, description, priority, department, createdBy }: Omit<Ticket, 'id' | 'open' | 'createdAt'>) {
   try {
-    if (!headline || !department || !priority || !description || !createdBy) {
+    console.log("Inserting ticket with values:", { headline, description, priority, department, createdBy });
+
+    if (!headline || !description || !priority || !department || !createdBy) {
       return { error: "All fields need to be filled" };
     }
 
@@ -80,6 +81,7 @@ export async function InsertTicket({ headline, description, priority, department
 
     return newTicket;
   } catch (error) {
+    console.error("Error creating ticket:", error);
     return { error: "Error creating ticket" };
   }
 }

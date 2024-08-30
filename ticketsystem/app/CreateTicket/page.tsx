@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import MenueBar from "../MenueBar";
 import { InsertTicket } from "../pages/api/DataBaseConnection";
 import { useRouter } from "next/navigation";
-import './CreateTicketPage.css';  // Import the CSS file
+import './CreateTicketPage.css';
 
 const CreateTicketPage: React.FC = () => {
   const [headline, setHeadline] = useState("");
@@ -11,6 +11,7 @@ const CreateTicketPage: React.FC = () => {
   const [priority, setPriority] = useState("Low");
   const [department, setDepartment] = useState("IT");
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const [createdBy, setCreatedBy] = useState("User's Name"); // Replace with actual user or account name
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -20,6 +21,7 @@ const CreateTicketPage: React.FC = () => {
       description,
       priority,
       department,
+      createdBy, // Pass the creator's name
     });
 
     if (result && result.error) {
