@@ -19,7 +19,8 @@ export interface OutputTicket {
   department: Department;
   open: boolean;
   createdAt: Date;
-  CreatorID: number; 
+  authorid: number; // Den der har lavet ticketen
+  workingonid: number; // Den der arbejder på ticketen, kan være null
 }
 
 export interface InputTicket {
@@ -30,7 +31,7 @@ export interface InputTicket {
   department: string;
   open: boolean;
   createdAt: Date;
-  CreatorID: number; 
+  authorid: number; // Den der har lavet ticketen
 }
 
 export interface ErrorResponse {
@@ -69,16 +70,16 @@ export async function GetTickets() {
 }
 
 // Insert a new ticket
-export async function InsertTicket({ headline, description, prioritylevel, department, CreatorID }: Omit<InputTicket, 'id' | 'open' | 'createdAt'>) {
+export async function InsertTicket({ headline, description, prioritylevel, department, authorid }: Omit<InputTicket, 'id' | 'open' | 'createdAt'>) {
+  console.log("Inserting ticket with values:", { headline, description, prioritylevel, department, authorid });
+  
+  if (!headline || !description || !prioritylevel || !department || !authorid) {
+    return { error: "All fields need to be filled" };
+  }
+  
+  const [depId, prioId] = await GetForeignKeys(department, prioritylevel);
+  var worker;
   try {
-    console.log("Inserting ticket with values:", { headline, description, prioritylevel, department, CreatorID });
-
-    if (!headline || !description || !prioritylevel || !department || !CreatorID) {
-      return { error: "All fields need to be filled" };
-    }
-
-    const [depId, prioId] = await GetForeignKeys(department, prioritylevel);
-
     const newTicket = await prisma.ticket.create({
       data: {
         headline,
@@ -86,8 +87,9 @@ export async function InsertTicket({ headline, description, prioritylevel, depar
         departmentid: depId,
         prioritylevelid: prioId,
         open: true,
-        CreatorID, 
-      },
+        authorid, 
+        workingonid: null
+      }
     });
 
     return newTicket;

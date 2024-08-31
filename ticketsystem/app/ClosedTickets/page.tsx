@@ -29,6 +29,7 @@ export default function ClosedTickets() {
 
     async function fetchTickets() {
       const result = await GetTickets();
+      console.log(result);
 
       if ("error" in result) {
         setError(result.error);

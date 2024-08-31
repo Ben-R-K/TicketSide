@@ -29,10 +29,8 @@ const CreateTicketPage: React.FC = () => {
       description,
       prioritylevel,
       department,
-      CreatorID, 
-      createdBy: creatorName, 
+      authorid: CreatorID, 
     });
-
     if (result && result.error) {
       alert(result.error);
     } else {

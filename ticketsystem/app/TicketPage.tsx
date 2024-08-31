@@ -9,7 +9,6 @@ export default function TicketPage() {
   useEffect(() => {
     async function fetchTickets() {
       const result = await GetTickets();
-
       if ('error' in result) {
         setError(result.error);
       } else {
