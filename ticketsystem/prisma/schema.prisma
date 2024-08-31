@@ -21,9 +21,9 @@ model prioritylevel {
 }
 
 model acount {
+  acountid     Int        @id @default(autoincrement())
   acount_name  String
   departmentid Int
-  acountid     Int        @id @default(autoincrement())
   department   department @relation(fields: [departmentid], references: [departmentid], map: "Acount_depatmentid_fkey")
   ticket       ticket[]
 
