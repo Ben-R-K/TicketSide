@@ -78,7 +78,7 @@ export default function OpenTickets() {
                 <li
                   key={ticket.id}
                   className={`${styles.ticketItem} flex justify-between items-center p-6 bg-white border border-gray-300 rounded-lg hover:bg-blue-50 transition duration-200 w-full cursor-pointer`}
-                  onClick={() => router.push(`/TicketDetails?id=${ticket.id}`)} // Navigate to the detailed view page
+                  onClick={() => router.push(`/tickets/${ticket.id}`)} // Navigate to the detailed view page
                 >
                   <div>
                     <h3 className="text-3xl font-bold text-blue-800">{ticket.headline}</h3>
