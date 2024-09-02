@@ -1,14 +1,16 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
-import { GetTicketById, OutputTicket } from "@/app/pages/api/DataBaseConnection";
+import { useSearchParams, useRouter } from "next/navigation";
+import { GetTicketById, CloseTicket, OutputTicket } from "@/app/pages/api/DataBaseConnection";
 import MenueBar from "../MenueBar";
-import styles from './TicketDetails.module.css'; 
+import styles from './TicketDetails.module.css'; // Import your custom styles
 
 export default function TicketDetails() {
   const [ticket, setTicket] = useState<OutputTicket | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState<boolean>(false);
   const searchParams = useSearchParams();
+  const router = useRouter();
 
   useEffect(() => {
     const ticketId = searchParams.get("id");
@@ -27,6 +29,20 @@ export default function TicketDetails() {
       setError(result.error);
     } else {
       setTicket(result);
+    }
+  };
+
+  const handleCloseTicket = async () => {
+    if (ticket) {
+      setLoading(true);
+      const result = await CloseTicket(ticket.id);
+
+      if ("error" in result) {
+        setError(result.error);
+      } else {
+        setTicket({ ...ticket, open: false });
+      }
+      setLoading(false);
     }
   };
 
@@ -60,14 +76,28 @@ export default function TicketDetails() {
             <h3 className="text-xl font-semibold text-blue-600">Priority</h3>
             <p className="text-lg text-gray-700">{ticket.prioritylevel.prioritysymbol}</p>
           </div>
-          <div className="mb-4">
+
+          {/* Ticket Status and Close Box */}
+          <div className={`mb-4 p-4 border-2 rounded ${ticket.open ? 'border-green-500 bg-green-100' : 'border-red-500 bg-red-100'}`}>
             <h3 className="text-xl font-semibold text-blue-600">Status</h3>
-            <p className="text-lg text-green-600 font-bold">{ticket.open ? "Open" : "Closed"}</p>
+            <p className={`text-lg font-bold ${ticket.open ? 'text-green-600' : 'text-red-600'}`}>
+              {ticket.open ? "Open" : "Closed"}
+            </p>
+            {ticket.open && (
+              <button
+                className="mt-4 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-500 transition"
+                onClick={handleCloseTicket}
+                disabled={loading}
+              >
+                {loading ? "Closing..." : "Close Ticket"}
+              </button>
+            )}
           </div>
+
           <div className="text-right">
             <button
               className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-500 transition"
-              onClick={() => window.history.back()} // Go back to the previous page
+              onClick={() => router.push("/OpenTickets")}
             >
               Back to Tickets
             </button>
