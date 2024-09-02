@@ -19,11 +19,7 @@ export interface OutputTicket {
   department: Department;
   open: boolean;
   createdAt: Date;
-  authorid: number;
-  author: {
-    acount_name: string;
-  };
-  workingonid?: number;
+  CreatorID: number; 
 }
 
 export interface InputTicket {
@@ -34,14 +30,14 @@ export interface InputTicket {
   department: string;
   open: boolean;
   createdAt: Date;
-  authorid: number;
+  CreatorID: number; 
 }
 
 export interface ErrorResponse {
   error: string;
 }
 
-// Fetch all accounts
+// Fetch accounts
 export async function GetAccounts() {
   try {
     const accounts = await prisma.acount.findMany({
@@ -57,14 +53,13 @@ export async function GetAccounts() {
   }
 }
 
-// Fetch all tickets
+// Fetch tickets
 export async function GetTickets() {
   try {
     const tickets = await prisma.ticket.findMany({
       include: {
         department: true,
         prioritylevel: true,
-        author: true,
       },
     });
     return tickets;
@@ -73,33 +68,17 @@ export async function GetTickets() {
   }
 }
 
-// Fetch a single ticket by ID
-export async function GetTicketById(ticketId: number) {
-  try {
-    const ticket = await prisma.ticket.findUnique({
-      where: { id: ticketId },
-      include: {
-        department: true,
-        prioritylevel: true,
-        author: true,
-      },
-    });
-    return ticket;
-  } catch (error) {
-    return { error: "Error fetching ticket details" };
-  }
-}
-
 // Insert a new ticket
-export async function InsertTicket({ headline, description, prioritylevel, department, authorid }: Omit<InputTicket, 'id' | 'open' | 'createdAt'>) {
-  console.log("Inserting ticket with values:", { headline, description, prioritylevel, department, authorid });
-
-  if (!headline || !description || !prioritylevel || !department || !authorid) {
-    return { error: "All fields need to be filled" };
-  }
-
-  const [depId, prioId] = await GetForeignKeys(department, prioritylevel);
+export async function InsertTicket({ headline, description, prioritylevel, department, CreatorID }: Omit<InputTicket, 'id' | 'open' | 'createdAt'>) {
   try {
+    console.log("Inserting ticket with values:", { headline, description, prioritylevel, department, CreatorID });
+
+    if (!headline || !description || !prioritylevel || !department || !CreatorID) {
+      return { error: "All fields need to be filled" };
+    }
+
+    const [depId, prioId] = await GetForeignKeys(department, prioritylevel);
+
     const newTicket = await prisma.ticket.create({
       data: {
         headline,
@@ -107,8 +86,7 @@ export async function InsertTicket({ headline, description, prioritylevel, depar
         departmentid: depId,
         prioritylevelid: prioId,
         open: true,
-        authorid,
-        workingonid: null,
+        CreatorID, 
       },
     });
 
@@ -133,7 +111,6 @@ export async function CloseTicket(ticketId: number) {
   }
 }
 
-// Helper function to get foreign keys for department and priority level
 async function GetForeignKeys(department: string, priority: string) {
   try {
     const departmentRecord = await prisma.department.findFirst({
