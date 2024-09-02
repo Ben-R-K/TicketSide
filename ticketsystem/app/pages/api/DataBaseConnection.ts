@@ -133,3 +133,25 @@ async function GetForeignKeys(department: string, priority: string) {
     throw new Error("Error fetching department or priority");
   }
 }
+
+export async function GetTicketInfo(id: number): Promise<OutputTicket | { error: string }> {
+  try {
+    const ticket = await prisma.ticket.findUnique({
+      where: { id },
+      include: {
+        department: true,
+        prioritylevel: true,
+      },
+    });
+
+    if (!ticket) {
+      return { error: "Ticket not found" };
+    }
+
+    return ticket;
+  } catch (error) {
+    console.error("Error fetching ticket:", error);
+    return { error: "Error fetching ticket" };
+  }
+}
+
