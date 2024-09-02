@@ -1,8 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { GetTickets, OutputTicket, CloseTicket } from "@/app/pages/api/DataBaseConnection";
 import MenueBar from "../MenueBar";
+import styles from './OpenTickets.module.css'; // Assuming you have custom styles
 
 export default function OpenTickets() {
   const [tickets, setTickets] = useState<OutputTicket[]>([]);
@@ -10,6 +11,7 @@ export default function OpenTickets() {
   const [accountName, setAccountName] = useState<string | null>(null);
   const [departmentName, setDepartmentName] = useState<string | null>(null);
   const searchParams = useSearchParams();
+  const router = useRouter();
 
   useEffect(() => {
     const acount_name = searchParams.get("acount_name");
@@ -36,7 +38,7 @@ export default function OpenTickets() {
         const filteredTickets = departmentName
           ? result.filter(ticket => ticket.department.department === departmentName && ticket.open)
           : result.filter(ticket => ticket.open);
-          
+
         // Sorting by priority and then by created date
         filteredTickets.sort((a, b) => {
           const priorityOrder = { 'High': 1, 'Medium': 2, 'Low': 3 };
@@ -75,31 +77,29 @@ export default function OpenTickets() {
               tickets.map((ticket) => (
                 <li
                   key={ticket.id}
-                  className="flex justify-between items-center p-6 bg-white border border-gray-300 rounded-lg hover:bg-blue-50 transition duration-200 w-full"
-                  onClick={() => handleCloseTicket(ticket.id)}
+                  className={`${styles.ticketItem} flex justify-between items-center p-6 bg-white border border-gray-300 rounded-lg hover:bg-blue-50 transition duration-200 w-full cursor-pointer`}
+                  onClick={() => router.push(`/TicketDetails?id=${ticket.id}`)} // Navigate to the detailed view page
                 >
-                  <div className="flex-1">
+                  <div>
                     <h3 className="text-3xl font-bold text-blue-800">{ticket.headline}</h3>
-                    <div className="flex space-x-4 mt-2 items-center">
-                      {/* Priority Label */}
-                      <span className={`px-2 py-1 rounded-full text-white ${ticket.prioritylevel.prioritysymbol === 'Low' ? 'bg-green-500' : ticket.prioritylevel.prioritysymbol === 'Medium' ? 'bg-yellow-500' : 'bg-red-500'}`}>
-                        {ticket.prioritylevel.prioritysymbol}
-                      </span>
-                      {/* Created By */}
-                      <p className="text-sm text-gray-600">Created by: {ticket.createdBy}</p>
-                      {/* Created At */}
-                      <p className="text-sm text-gray-500">Created at: {new Date(ticket.createdAt).toLocaleString()}</p>
-                    </div>
+                    <p>Priority: {ticket.prioritylevel.prioritysymbol}</p>
+                    <p>Department: {ticket.department.department}</p>
+                    <p className="text-sm text-green-600 font-semibold">Status: {ticket.open ? "Open" : "Closed"}</p>
+                    <p className="text-xs text-gray-500">Created at: {new Date(ticket.createdAt).toLocaleString()}</p>
                   </div>
-                  <div className="text-right flex-none ml-6">
-                    <span className={`text-lg font-semibold ${ticket.open ? 'text-green-500' : 'text-red-500'}`}>
-                      {ticket.open ? 'Open' : 'Closed'}
-                    </span>
-                  </div>
+                  <button
+                    className="ml-4 text-red-500 hover:underline"
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent triggering the navigation when closing a ticket
+                      handleCloseTicket(ticket.id);
+                    }}
+                  >
+                    Close Ticket
+                  </button>
                 </li>
               ))
             ) : (
-              <p className="text-gray-500">No open tickets available for this department.</p>
+              <p className="text-gray-500">No open tickets available.</p>
             )}
           </ul>
         </div>

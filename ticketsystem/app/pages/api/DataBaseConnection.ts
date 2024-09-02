@@ -19,8 +19,11 @@ export interface OutputTicket {
   department: Department;
   open: boolean;
   createdAt: Date;
-  authorid: number; // Den der har lavet ticketen
-  workingonid: number; // Den der arbejder på ticketen, kan være null
+  authorid: number;
+  author: {
+    acount_name: string;
+  };
+  workingonid?: number;
 }
 
 export interface InputTicket {
@@ -31,14 +34,14 @@ export interface InputTicket {
   department: string;
   open: boolean;
   createdAt: Date;
-  authorid: number; // Den der har lavet ticketen
+  authorid: number;
 }
 
 export interface ErrorResponse {
   error: string;
 }
 
-// Fetch accounts
+// Fetch all accounts
 export async function GetAccounts() {
   try {
     const accounts = await prisma.acount.findMany({
@@ -54,13 +57,14 @@ export async function GetAccounts() {
   }
 }
 
-// Fetch tickets
+// Fetch all tickets
 export async function GetTickets() {
   try {
     const tickets = await prisma.ticket.findMany({
       include: {
         department: true,
         prioritylevel: true,
+        author: true,
       },
     });
     return tickets;
@@ -69,16 +73,32 @@ export async function GetTickets() {
   }
 }
 
+// Fetch a single ticket by ID
+export async function GetTicketById(ticketId: number) {
+  try {
+    const ticket = await prisma.ticket.findUnique({
+      where: { id: ticketId },
+      include: {
+        department: true,
+        prioritylevel: true,
+        author: true,
+      },
+    });
+    return ticket;
+  } catch (error) {
+    return { error: "Error fetching ticket details" };
+  }
+}
+
 // Insert a new ticket
 export async function InsertTicket({ headline, description, prioritylevel, department, authorid }: Omit<InputTicket, 'id' | 'open' | 'createdAt'>) {
   console.log("Inserting ticket with values:", { headline, description, prioritylevel, department, authorid });
-  
+
   if (!headline || !description || !prioritylevel || !department || !authorid) {
     return { error: "All fields need to be filled" };
   }
-  
+
   const [depId, prioId] = await GetForeignKeys(department, prioritylevel);
-  var worker;
   try {
     const newTicket = await prisma.ticket.create({
       data: {
@@ -87,9 +107,9 @@ export async function InsertTicket({ headline, description, prioritylevel, depar
         departmentid: depId,
         prioritylevelid: prioId,
         open: true,
-        authorid, 
-        workingonid: null
-      }
+        authorid,
+        workingonid: null,
+      },
     });
 
     return newTicket;
@@ -113,6 +133,7 @@ export async function CloseTicket(ticketId: number) {
   }
 }
 
+// Helper function to get foreign keys for department and priority level
 async function GetForeignKeys(department: string, priority: string) {
   try {
     const departmentRecord = await prisma.department.findFirst({
