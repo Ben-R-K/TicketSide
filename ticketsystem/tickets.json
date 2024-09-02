@@ -1,101 +1,227 @@
 [
   {
     "id": 1,
-    "headline": "TEST",
-    "departmentid": 0,
-    "prioritylevelid": 0,
+    "headline": "test",
     "description": "test",
+    "prioritylevel": {
+      "prioritysymbol": "Low",
+      "priorityid": 1
+    },
+    "department": {
+      "department": "IT",
+      "departmentId": 1
+    },
     "open": false,
-    "createdAt": "2024-08-29T07:00:02.649Z",
-    "department": "IT",
-    "priority": "Low"
+    "createdAt": "2024-08-30T06:54:03.687Z"
   },
   {
     "id": 2,
     "headline": "TEST",
-    "departmentid": 0,
-    "prioritylevelid": 0,
     "description": "test",
+    "prioritylevel": {
+      "prioritysymbol": "Low",
+      "priorityid": 2
+    },
+    "department": {
+      "department": "IT",
+      "departmentId": 2
+    },
     "open": false,
-    "createdAt": "2024-08-29T07:01:16.210Z",
-    "department": "IT",
-    "priority": "Low"
+    "createdAt": "2024-08-30T06:56:12.741Z"
   },
   {
     "id": 3,
-    "headline": "TEST",
-    "departmentid": 0,
-    "prioritylevelid": 0,
+    "headline": "test",
     "description": "test",
+    "prioritylevel": {
+      "prioritysymbol": "Low",
+      "priorityid": 3
+    },
+    "department": {
+      "department": "IT",
+      "departmentId": 3
+    },
     "open": false,
-    "createdAt": "2024-08-29T07:36:04.805Z",
-    "department": "IT",
-    "priority": "Low"
+    "createdAt": "2024-08-30T06:57:12.040Z"
   },
   {
     "id": 4,
     "headline": "test",
-    "departmentid": 0,
-    "prioritylevelid": 0,
     "description": "test",
+    "prioritylevel": {
+      "prioritysymbol": "Low",
+      "priorityid": 4
+    },
+    "department": {
+      "department": "IT",
+      "departmentId": 4
+    },
     "open": false,
-    "createdAt": "2024-08-29T07:43:02.626Z",
-    "department": "IT",
-    "priority": "Low"
+    "createdAt": "2024-08-30T07:07:43.894Z"
   },
   {
     "id": 5,
-    "headline": "TEST",
-    "departmentid": 0,
-    "prioritylevelid": 0,
+    "headline": "test",
     "description": "test",
+    "prioritylevel": {
+      "prioritysymbol": "Low",
+      "priorityid": 5
+    },
+    "department": {
+      "department": "IT",
+      "departmentId": 5
+    },
     "open": false,
-    "createdAt": "2024-08-29T08:22:49.211Z",
-    "department": "IT",
-    "priority": "Low"
+    "createdAt": "2024-08-30T07:07:53.485Z"
   },
   {
     "id": 6,
-    "headline": "TEST",
-    "departmentid": 0,
-    "prioritylevelid": 0,
+    "headline": "test",
     "description": "test",
+    "prioritylevel": {
+      "prioritysymbol": "Low",
+      "priorityid": 6
+    },
+    "department": {
+      "department": "IT",
+      "departmentId": 6
+    },
     "open": false,
-    "createdAt": "2024-08-29T08:32:11.164Z",
-    "department": "IT",
-    "priority": "Low"
+    "createdAt": "2024-08-30T07:08:03.261Z"
   },
   {
     "id": 7,
-    "headline": "TEST",
-    "departmentid": 0,
-    "prioritylevelid": 0,
+    "headline": "test",
     "description": "test",
+    "prioritylevel": {
+      "prioritysymbol": "Low",
+      "priorityid": 7
+    },
+    "department": {
+      "department": "IT",
+      "departmentId": 7
+    },
     "open": false,
-    "createdAt": "2024-08-29T08:33:32.989Z",
-    "department": "IT",
-    "priority": "Low"
+    "createdAt": "2024-08-30T07:13:23.902Z"
   },
   {
     "id": 8,
     "headline": "test",
-    "departmentid": 0,
-    "prioritylevelid": 0,
     "description": "test",
+    "prioritylevel": {
+      "prioritysymbol": "Low",
+      "priorityid": 8
+    },
+    "department": {
+      "department": "IT",
+      "departmentId": 8
+    },
     "open": false,
-    "createdAt": "2024-08-29T08:45:39.463Z",
-    "department": "IT",
-    "priority": "Low"
+    "createdAt": "2024-08-30T07:15:09.934Z"
   },
   {
     "id": 9,
-    "headline": "TEST",
-    "departmentid": 0,
-    "prioritylevelid": 0,
+    "headline": "test",
     "description": "test",
+    "prioritylevel": {
+      "prioritysymbol": "Low",
+      "priorityid": 9
+    },
+    "department": {
+      "department": "IT",
+      "departmentId": 9
+    },
     "open": false,
-    "createdAt": "2024-08-29T09:06:16.497Z",
-    "department": "IT",
-    "priority": "Low"
+    "createdAt": "2024-08-30T07:23:53.574Z"
+  },
+  {
+    "id": 10,
+    "headline": "test",
+    "description": "test",
+    "prioritylevel": {
+      "prioritysymbol": "Low",
+      "priorityid": 10
+    },
+    "department": {
+      "department": "IT",
+      "departmentId": 10
+    },
+    "open": false,
+    "createdAt": "2024-08-30T07:25:08.215Z"
+  },
+  {
+    "id": 11,
+    "headline": "test",
+    "description": "test",
+    "prioritylevel": {
+      "prioritysymbol": "Medium",
+      "priorityid": 11
+    },
+    "department": {
+      "department": "IT",
+      "departmentId": 11
+    },
+    "open": false,
+    "createdAt": "2024-08-30T07:25:19.375Z"
+  },
+  {
+    "id": 12,
+    "headline": "test",
+    "description": "test",
+    "prioritylevel": {
+      "prioritysymbol": "Low",
+      "priorityid": 12
+    },
+    "department": {
+      "department": "IT",
+      "departmentId": 12
+    },
+    "open": false,
+    "createdAt": "2024-08-30T07:26:54.542Z"
+  },
+  {
+    "id": 13,
+    "headline": "Problem opening power BI",
+    "description": "test",
+    "prioritylevel": {
+      "prioritysymbol": "High",
+      "priorityid": 13
+    },
+    "department": {
+      "department": "IT",
+      "departmentId": 13
+    },
+    "open": false,
+    "createdAt": "2024-08-30T07:28:05.451Z"
+  },
+  {
+    "id": 14,
+    "headline": "test",
+    "description": "test",
+    "prioritylevel": {
+      "prioritysymbol": "Low",
+      "priorityid": 14
+    },
+    "department": {
+      "department": "IT",
+      "departmentId": 14
+    },
+    "open": true,
+    "createdAt": "2024-08-30T07:28:53.549Z"
+  },
+  {
+    "id": 15,
+    "headline": "Problem opening Power BI",
+    "description": "TEST",
+    "prioritylevel": {
+      "prioritysymbol": "Low",
+      "priorityid": 15
+    },
+    "department": {
+      "department": "IT",
+      "departmentId": 15
+    },
+    "open": false,
+    "createdAt": "2024-08-30T07:29:22.982Z"
   }
 ]

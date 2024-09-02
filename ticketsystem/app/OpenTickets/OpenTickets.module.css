@@ -1,0 +1,13 @@
+/* Custom styles with higher specificity or using !important */
+.ticket-item {
+    padding: 20px !important;
+    margin-bottom: 15px !important;
+    border-radius: 8px !important;
+    background-color: white !important;
+    min-height: 150px !important;
+  }
+  
+  .ticket-item:hover {
+    background-color: #f0f8ff !important;
+  }
+  

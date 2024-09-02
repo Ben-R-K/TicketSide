@@ -21,13 +21,12 @@ model prioritylevel {
 }
 
 model acount {
-  acountid     Int        @id @default(autoincrement())
-  acount_name  String
-  departmentid Int
-  department   department @relation(fields: [departmentid], references: [departmentid], map: "Acount_depatmentid_fkey")
-  ticket       ticket[]
-
-  @@index([departmentid], map: "Acount_depatmentid_fkey")
+  acountid           Int        @id @default(autoincrement())
+  acount_name        String
+  departmentid       Int
+  department  department @relation(fields: [departmentid], references: [departmentid], map: "Acount_depatmentid_fkey")
+  authored ticket[] @relation("author")
+  workingon ticket[] @relation("worker")
 }
 
 model ticket {
@@ -37,11 +36,13 @@ model ticket {
   prioritylevelid Int
   description     String        @db.VarChar(500)
   open            Boolean
-  acountid        Int?
+  authorid        Int
+  workingonid     Int?
   createdAt       DateTime      @default(now())
-  acount          acount?       @relation(fields: [acountid], references: [acountid], map: "Ticket_Acount_fkey")
+  author          acount        @relation("author", fields: [authorid], references: [acountid])
+  worker          acount?        @relation("worker", fields: [workingonid], references: [acountid])
   department      department    @relation(fields: [departmentid], references: [departmentid], map: "Ticket_departmentid_fkey")
-  prioritylevel   prioritylevel @relation(fields: [prioritylevelid], references: [priorityid], map: "Ticket_prioritylevelid_fkey")
+  prioritylevel   prioritylevel @relation(fields: [prioritylevelid], references: [priorityid], map: "Ticket_prioritylevelid_fkey")    
 
   @@index([departmentid], map: "Ticket_departmentid_fkey")
   @@index([prioritylevelid], map: "Ticket_prioritylevelid_fkey")

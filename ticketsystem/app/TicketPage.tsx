@@ -1,15 +1,14 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { GetTickets, Ticket, ErrorResponse, CloseTicket } from "@/app/pages/api/DataBaseConnection";
+import { GetTickets, OutputTicket, ErrorResponse, CloseTicket } from "@/app/pages/api/DataBaseConnection";
 
 export default function TicketPage() {
-  const [tickets, setTickets] = useState<Ticket[]>([]);
+  const [tickets, setTickets] = useState<OutputTicket[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchTickets() {
       const result = await GetTickets();
-
       if ('error' in result) {
         setError(result.error);
       } else {
