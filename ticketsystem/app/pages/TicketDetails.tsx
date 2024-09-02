@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { GetTicketById, CloseTicket, OutputTicket } from "@/app/pages/api/DataBaseConnection";
+import { GetTickets, CloseTicket, OutputTicket } from "@/app/pages/api/DataBaseConnection";
 import MenueBar from "../MenueBar";
 import styles from './TicketDetails.module.css'; // Import your custom styles
 
@@ -23,12 +23,22 @@ export default function TicketDetails() {
   }, [searchParams]);
 
   const fetchTicketDetails = async (id: number) => {
-    const result = await GetTicketById(id);
-
+    const result = await GetTickets();
+  
     if ("error" in result) {
       setError(result.error);
     } else {
-      setTicket(result);
+      // Cast the result to unknown first, then to OutputTicket[]
+      const tickets = result as unknown as OutputTicket[];
+  
+      // Now use the 'find' method on the array
+      const ticket = tickets.find((ticket: OutputTicket) => ticket.id === id);
+  
+      if (ticket) {
+        setTicket(ticket);
+      } else {
+        setError("Ticket not found");
+      }
     }
   };
 
