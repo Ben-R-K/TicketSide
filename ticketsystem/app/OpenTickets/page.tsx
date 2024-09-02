@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { GetTickets, OutputTicket, CloseTicket } from "@/app/pages/api/DataBaseConnection";
+import { GetTickets, OutputTicket, CloseTicket, GetSLAs } from "@/app/pages/api/DataBaseConnection";
 import MenueBar from "../MenueBar";
 
 export default function OpenTickets() {

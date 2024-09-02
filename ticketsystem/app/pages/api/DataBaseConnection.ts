@@ -38,6 +38,17 @@ export interface ErrorResponse {
   error: string;
 }
 
+// Fetch SLAs
+export async function GetSLAs() {
+  try {
+    const slas = await prisma.sla.findMany();
+    return slas;
+  } catch (error) {
+    return { error: "Error fetching SLA's" };
+  } 
+}
+
+
 // Fetch accounts
 export async function GetAccounts() {
   try {
