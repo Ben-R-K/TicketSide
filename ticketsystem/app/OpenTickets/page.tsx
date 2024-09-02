@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { GetTickets, OutputTicket, CloseTicket } from "@/app/pages/api/DataBaseConnection";
 import MenueBar from "../MenueBar";
-import styles from './OpenTickets.module.css'; // Assuming you have custom styles
+import styles from './OpenTickets.module.css'; 
 
 export default function OpenTickets() {
   const [tickets, setTickets] = useState<OutputTicket[]>([]);
@@ -66,6 +66,19 @@ export default function OpenTickets() {
     return <div>Error: {error}</div>;
   }
 
+  const getPriorityColor = (priority: string) => {
+    switch (priority) {
+      case "High":
+        return "bg-red-100 text-red-800 border-red-300";
+      case "Medium":
+        return "bg-yellow-100 text-yellow-800 border-yellow-300";
+      case "Low":
+        return "bg-green-100 text-green-800 border-green-300";
+      default:
+        return "";
+    }
+  };
+
   return (
     <div className="flex flex-col min-h-screen bg-gray-100">
       <MenueBar />
@@ -82,7 +95,9 @@ export default function OpenTickets() {
                 >
                   <div>
                     <h3 className="text-3xl font-bold text-blue-800">{ticket.headline}</h3>
-                    <p>Priority: {ticket.prioritylevel.prioritysymbol}</p>
+                    <p className={`inline-block mt-2 px-3 py-1 rounded-full text-sm font-semibold border ${getPriorityColor(ticket.prioritylevel.prioritysymbol)}`}>
+                      Priority: {ticket.prioritylevel.prioritysymbol}
+                    </p>
                     <p>Department: {ticket.department.department}</p>
                     <p className="text-sm text-green-600 font-semibold">Status: {ticket.open ? "Open" : "Closed"}</p>
                     <p className="text-xs text-gray-500">Created at: {new Date(ticket.createdAt).toLocaleString()}</p>
