@@ -19,7 +19,7 @@ export interface OutputTicket {
   department: Department;
   open: boolean;
   createdAt: Date;
-  CreatorID: number; 
+  authorid: number; 
 }
 
 export interface InputTicket {
