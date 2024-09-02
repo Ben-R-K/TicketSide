@@ -46,7 +46,6 @@ model ticket {
 
   @@index([departmentid], map: "Ticket_departmentid_fkey")
   @@index([prioritylevelid], map: "Ticket_prioritylevelid_fkey")
-  @@index([acountid], map: "Ticket_Acount_fkey")
 }
 
 model sla {
