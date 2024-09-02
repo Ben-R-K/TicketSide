@@ -30,7 +30,7 @@ export interface InputTicket {
   department: string;
   open: boolean;
   createdAt: Date;
-  CreatorID: number; 
+  authorid: number; 
 }
 
 export interface ErrorResponse {
@@ -69,11 +69,11 @@ export async function GetTickets() {
 }
 
 // Insert a new ticket
-export async function InsertTicket({ headline, description, prioritylevel, department, CreatorID }: Omit<InputTicket, 'id' | 'open' | 'createdAt'>) {
+export async function InsertTicket({ headline, description, prioritylevel, department, authorid }: Omit<InputTicket, 'id' | 'open' | 'createdAt'>) {
   try {
-    console.log("Inserting ticket with values:", { headline, description, prioritylevel, department, CreatorID });
+    console.log("Inserting ticket with values:", { headline, description, prioritylevel, department, authorid });
 
-    if (!headline || !description || !prioritylevel || !department || !CreatorID) {
+    if (!headline || !description || !prioritylevel || !department || !authorid) {
       return { error: "All fields need to be filled" };
     }
 
@@ -86,7 +86,8 @@ export async function InsertTicket({ headline, description, prioritylevel, depar
         departmentid: depId,
         prioritylevelid: prioId,
         open: true,
-        CreatorID, 
+        authorid, 
+        workingonid: null 
       },
     });
 
