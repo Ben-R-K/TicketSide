@@ -1,17 +1,17 @@
 "use server";
-import prisma from "../../lib/prisma";
+import prisma from "../../lib/prisma"; // Adjust the import path based on your project structure
 
 export interface Department {
   departmentId: number;
   department: string;
 }
 
-export interface Priority {
-  priorityid: number;
-  prioritysymbol: string;
+export interface Priority{
+  priorityid: number
+  prioritysymbol: string
 }
 
-export interface OutputTicket {
+export interface Ticket {
   id: number;
   headline: string;
   description: string;
@@ -19,41 +19,24 @@ export interface OutputTicket {
   department: Department;
   open: boolean;
   createdAt: Date;
-  authorid: number; 
-}
-
-export interface InputTicket {
-  id: number;
-  headline: string;
-  description: string;
-  prioritylevel: string;
-  department: string;
-  open: boolean;
-  createdAt: Date;
-  authorid: number; 
 }
 
 export interface ErrorResponse {
   error: string;
 }
 
-// Fetch accounts
-export async function GetAccounts() {
-  try {
-    const accounts = await prisma.acount.findMany({
-      select: {
-        acountid: true,
-        acount_name: true,
-        department: true,
-      },
-    });
-    return accounts;
-  } catch (error) {
-    return { error: "Error fetching accounts" };
-  }
-}
 
-// Fetch tickets
+export async function GetAcounts() {
+
+      const acounts = await prisma.acount.findMany({
+        select: { acountid: true,
+                acount_name: true,
+                department: true}
+      });
+      return acounts;
+
+  }
+
 export async function GetTickets() {
   try {
     const tickets = await prisma.ticket.findMany({
@@ -68,16 +51,13 @@ export async function GetTickets() {
   }
 }
 
-// Insert a new ticket
-export async function InsertTicket({ headline, description, prioritylevel, department, authorid }: Omit<InputTicket, 'id' | 'open' | 'createdAt'>) {
+export async function InsertTicket({ headline, description, priority, department }: Omit<Ticket, 'id' | 'open' | 'createdAt'>) {
   try {
-    console.log("Inserting ticket with values:", { headline, description, prioritylevel, department, authorid });
-
-    if (!headline || !description || !prioritylevel || !department || !authorid) {
+    if (!headline || !department || !priority || !description) {
       return { error: "All fields need to be filled" };
     }
 
-    const [depId, prioId] = await GetForeignKeys(department, prioritylevel);
+    const [depId, prioId] = await GetForeignKeys(department, priority);
 
     const newTicket = await prisma.ticket.create({
       data: {
@@ -86,19 +66,15 @@ export async function InsertTicket({ headline, description, prioritylevel, depar
         departmentid: depId,
         prioritylevelid: prioId,
         open: true,
-        authorid, 
-        workingonid: null 
       },
     });
 
     return newTicket;
   } catch (error) {
-    console.error("Error creating ticket:", error);
     return { error: "Error creating ticket" };
   }
 }
 
-// Close a ticket
 export async function CloseTicket(ticketId: number) {
   try {
     const closedTicket = await prisma.ticket.update({
@@ -128,7 +104,11 @@ async function GetForeignKeys(department: string, priority: string) {
       throw new Error("Invalid department or priority");
     }
 
-    return [departmentRecord.departmentid, priorityRecord.priorityid];
+    // Access the specific properties from the objects returned by Prisma
+    const depId = departmentRecord.departmentid;
+    const prioId = priorityRecord.priorityid;
+
+    return [depId, prioId];
   } catch (error) {
     throw new Error("Error fetching department or priority");
   }
