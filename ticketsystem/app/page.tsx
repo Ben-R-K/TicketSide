@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { GetAccounts } from "@/app/pages/api/DataBaseConnection";
+import { GetAcounts } from "@/app/pages/api/DataBaseConnection";
 import { useRouter } from "next/navigation";
 
 export default function Home() {
@@ -9,7 +9,7 @@ export default function Home() {
 
   useEffect(() => {
     async function fetchAccounts() {
-      const result = await GetAccounts();
+      const result = await GetAcounts();
       if ("error" in result) {
         console.error(result.error);
       } else {
